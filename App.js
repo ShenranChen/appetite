@@ -4,6 +4,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomePage from './components/welcome-page.jsx';
+import { PaperProvider } from 'react-native-paper';
 
 
 const Stack = createNativeStackNavigator();
