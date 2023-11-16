@@ -14,8 +14,9 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Welcome">
-          <Stack.Screen name="Welcome" component={HomePage}/>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Welcome" component={WelcomePage} />
+          <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
