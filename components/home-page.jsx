@@ -46,7 +46,7 @@ export default function HomePage()
 const styles = StyleSheet.create(
 {
     bottom: {
-        backgroundColor: '#FAE2F0',
+        backgroundColor: '#48b0d9',
         position: 'absolute',
         left: 0,
         right: 0,
