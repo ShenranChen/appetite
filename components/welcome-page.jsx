@@ -60,7 +60,6 @@ const WelcomePage = () => {
     </View>
     </TouchableWithoutFeedback>
   );
-
 }
 
 const styles = StyleSheet.create({
