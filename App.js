@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import WelcomePage from './components/welcome-page.jsx';
+import WelcomePageStyleSheet from './components/welcome-page.jsx';
 import UploadReview from './components/upload-review.jsx';
 import { PaperProvider } from 'react-native-paper';
 
@@ -15,7 +15,7 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Welcome">
-          <Stack.Screen name="Home" component={UploadReview} />
+          <Stack.Screen name="Welcome" component={UploadReview} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
