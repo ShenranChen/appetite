@@ -5,6 +5,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomePage from './components/welcome-page.jsx';
+import Profile from './components/profile.jsx';
+import { PaperProvider } from 'react-native-paper';
 import HomePage from './components/home-page.jsx'
 
 
@@ -15,8 +17,9 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Welcome" component={WelcomePage} />
-          <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+            <Stack.Screen name="Welcome" component={WelcomePage} />
+            <Stack.Screen name="Profile" component={Profile}/>
+            <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
