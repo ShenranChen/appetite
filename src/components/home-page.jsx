@@ -27,8 +27,8 @@ function BottomBar()
 
     return (
         <Appbar style={[styles.bottom, { height: BOTTOM_APPBAR_HEIGHT + bottom }]} safeAreaInsets={{ bottom }}>
-            <Appbar.Action icon={require('../assets/search-icon.png')} onPress={() => {}} style={{ marginRight: APPBAR_ACTION_HPAD, marginTop: APPBAR_ACTION_VPAD }} size={APPBAR_ACTION_SIZE} />
-            <Appbar.Action icon={require('../assets/add-icon.png')} onPress={() => {}} style={{ marginLeft: APPBAR_ACTION_HPAD, marginTop: APPBAR_ACTION_VPAD }} size={APPBAR_ACTION_SIZE} />
+            <Appbar.Action icon={require('../../assets/search-icon.png')} onPress={() => {}} style={{ marginRight: APPBAR_ACTION_HPAD, marginTop: APPBAR_ACTION_VPAD }} size={APPBAR_ACTION_SIZE} />
+            <Appbar.Action icon={require('../../assets/add-icon.png')} onPress={() => {}} style={{ marginLeft: APPBAR_ACTION_HPAD, marginTop: APPBAR_ACTION_VPAD }} size={APPBAR_ACTION_SIZE} />
         </Appbar>
     );
 };
@@ -39,9 +39,9 @@ export default function HomePage()
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
-              <DHallSelectionButton caption="BPlate" image={require('../assets/bplate-icon.png')}/>
-              <DHallSelectionButton caption="De Neve" image={require('../assets/deneve-icon.png')}/>
-              <DHallSelectionButton caption="Epicuria" image={require('../assets/epicuria-icon.png')}/>
+              <DHallSelectionButton caption="BPlate" image={require('../../assets/bplate-icon.png')}/>
+              <DHallSelectionButton caption="De Neve" image={require('../../assets/deneve-icon.png')}/>
+              <DHallSelectionButton caption="Epicuria" image={require('../../assets/epicuria-icon.png')}/>
             </View>
             <BottomBar />
         </View>
