@@ -2,138 +2,138 @@ import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
 const CatalogSchema = new Schema({
-    "mon": 
+    'mon': 
     {
-        "breakfast": 
+        'breakfast': 
         {
-           "bplate": [],
-            "deneve": []
+           'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "lunch":
+        'lunch':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "dinner":
+        'dinner':
         {
-            "bplate": [],
-            "deneve": [],
-            "epicuria": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ],
+            'epicuria': [ {type: String} ]
         }
     },
-    "tue":
+    'tue':
      {
-        "breakfast": 
+        'breakfast': 
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "lunch":
+        'lunch':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "dinner":
+        'dinner':
         {
-            "bplate": [],
-            "deneve": [],
-            "epicuria": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ],
+            'epicuria': [ {type: String} ]
         }
     },
-    "wed": 
+    'wed': 
     {
-        "breakfast": 
+        'breakfast': 
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "lunch":
+        'lunch':
         {
-        "bplate": [],
-        "deneve": []
+        'bplate': [ {type: String} ],
+        'deneve': [ {type: String} ]
         },
-        "dinner":
+        'dinner':
         {
-            "bplate": [],
-            "deneve": [],
-            "epicuria": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ],
+            'epicuria': [ {type: String} ]
         }
     },
-    "thu": 
+    'thu': 
     {
-        "breakfast": 
+        'breakfast': 
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "lunch":
+        'lunch':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "dinner":
+        'dinner':
         {
-            "bplate": [],
-            "deneve": [],
-            "epicuria": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ],
+            'epicuria': [ {type: String} ]
         }
     },
-    "fri": 
+    'fri': 
     {
-        "breakfast": 
+        'breakfast': 
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "lunch":
+        'lunch':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "dinner":
+        'dinner':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         }
     },
-    "sat": 
+    'sat': 
     {
-        "breakfast": 
+        'breakfast': 
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "lunch":
+        'lunch':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "dinner":
+        'dinner':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         }
     },
-    "sun": 
+    'sun': 
     {
-        "breakfast": 
+        'breakfast': 
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "lunch":
+        'lunch':
         {
-            "bplate": [],
-            "deneve": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ]
         },
-        "dinner":
+        'dinner':
         {
-            "bplate": [],
-            "deneve": [],
-            "epicuria": []
+            'bplate': [ {type: String} ],
+            'deneve': [ {type: String} ],
+            'epicuria': [ {type: String} ]
         }
     }
 })
 
-const Catalog = model('Catalog', CatalogSchema)
+const Catalog = model('Catalog', CatalogSchema, 'catalog')
 export default Catalog;
