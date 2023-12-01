@@ -8,35 +8,36 @@ import axios from "axios"
 
 const UploadReview = () => {
     const [foodItems, setFoodItems] = useState([]);
+    const [selectedFoodItem, setSelectedFoodItem] = useState(null);
+    const defaultLabel = 'Select An Item to Review: ';
 
     useEffect(() => {
         axios.get("http://localhost:8081/api/food")
-            .then(response => setFoodItems(response.data), console.log('food:', foodItems))
-            .catch(error => console.error("AAA" + error));
+            .then(response => setFoodItems(response.data))
+            .catch(error => console.error("upload review page food fetch error " + error));
     }, []);
 
-    const data = [
-        { label: 'Item 1', value: '1' },
-        { label: 'Item 2', value: '2' },
-        { label: 'Item 3', value: '3' },
-        { label: 'Item 4', value: '4' },
+    //testing to see if retrieved food 
+    useEffect(() => {
+        console.log('food:', foodItems);
+    }, [foodItems]);
 
-    ];
-
-    const [selectedItem, setSelectedItem] = useState(null);
-    const handleDropdownChange = (item) => {
-        setSelectedItem(item.value);
-        console.log(`Selected: ${item.label}`);
+    const handleDropdownChange = (foodItem) => {
+        setSelectedFoodItem(foodItem ? foodItem.value : null);
+        console.log(`Selected: ${foodItem ? foodItem.name : 'None'}`);
     };
-    const defaultLabel = 'Select An Item to Review: ';
+
     const renderLabel = () => {
-        if (selectedItem !== defaultLabel) {
+        const selectedFoodItem = foodItems.find((item) => item.value === selectedFoodItem);
+
+        if (selectedFoodItem !== defaultLabel) {
             return (
                 <Text style={styles.label}>
-                    {data.find((item) => item.value === selectedItem)?.label}
+                    {selectedFoodItem ? selectedFoodItem.label : 'None'}
                 </Text>
             );
         }
+
         return <Text style={styles.label}>{defaultLabel}</Text>;
     };
 
@@ -49,11 +50,11 @@ const UploadReview = () => {
                 inputSearchStyle={styles.inputSearchStyle}
                 placeholderStyle={styles.placeholderStyle}
                 // selectedTextStyle={styles.selectedTextStyle}
-                data={data}
+                data={foodItems}
                 search
                 maxHeight={400}
-                labelField="label"
-                valueField="value"
+                labelField="name"
+                valueField="_id" // uniquely identifies an item
                 placeholder="Select An Item to Review"
                 searchPlaceholder="Search..."
                 onChange={handleDropdownChange}
