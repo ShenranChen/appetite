@@ -19,7 +19,7 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
 
-        <Stack.Navigator initialRouteName="Profile">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Upload-Review" component={UploadReview} />
             <Stack.Screen name="Welcome" component={WelcomePage} />
             <Stack.Screen name="Profile" component={Profile}/>
