@@ -18,20 +18,36 @@ mongoose.connect("mongodb+srv://jasontchan:Appetite123@appetite.uy0okn0.mongodb.
     useUnifiedTopology: true,
 });
 
-
+app.use(express.json());
+app.post('/api/check-user', async (req, res) => {
+    try {
+    console.log('Request Body:', req.body)
+      const { email, password } = req.body;
+      const user = await User.findOne({ email, password })
+      // Check if the user exists
+      if (user) {
+        res.json({ message: 'Found' });
+      } else {
+        res.json({ message: 'No Match' });
+      }
+    } catch (error) {
+      console.error('Error checking credentials:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
 app.get("/api/users", async (req, res) => {
     try {
-        console.log("here A")
-        const users = await User.find();
-        console.log("here B")
-        res.json("yeah");
-        console.log("here C")
+        console.log("here E")
+        const user = await User.find();
+        // console.log("here B")
+        res.json(user);
+        // console.log("here C")
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching data:', error);
         res.status(500).send("Server Error");
     }
-})
+});
 
 
 const CATALOG_OBJID = '655aa00fecfff2b51574ed70'
@@ -48,4 +64,4 @@ app.get("/api/catalog", async (req, res) =>
         console.error(error);
         res.status(500).send("Server Error");
     }
-})
+});
