@@ -20,11 +20,11 @@ export default function App() {
       <NavigationContainer>
 
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Upload-Review" component={UploadReview} />
-            <Stack.Screen name="Welcome" component={WelcomePage} />
-            <Stack.Screen name="Profile" component={Profile}/>
-            <Stack.Screen name="Sign up for a new account" component={SignupPage}/>
-            <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+          <Stack.Screen name="Upload Review" component={UploadReview} />
+          <Stack.Screen name="Welcome" component={WelcomePage} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Sign up for a new account" component={SignupPage} />
+          <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
 
 
         </Stack.Navigator>
