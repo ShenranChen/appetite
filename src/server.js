@@ -10,6 +10,7 @@ import Catalog from '../models/Catalog.js'
 const app = express()
 const PORT = process.env.PORT || 8081;
 
+
 app.listen(PORT, () => console.log('server running on port ${PORT}'));
 
 
@@ -19,7 +20,6 @@ mongoose.connect("mongodb+srv://jasontchan:Appetite123@appetite.uy0okn0.mongodb.
 });
 
 
-
 app.get("/api/users", async (req, res) => {
     try {
         console.log("here A")
@@ -27,12 +27,39 @@ app.get("/api/users", async (req, res) => {
         console.log("here B")
         res.json("yeah");
         console.log("here C")
+        console.log("works")
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");
+
     }
 })
 
+app.use(express.json());
+app.post("/api/sign-up", async (req, res) => {
+    try {
+        console.log("sign-up");
+        console.log(req.body);
+
+        const {firstName, lastName, email, password, profilePhoto, reviews, year} = req.body;
+        const user = await User.findOne({email});
+
+        if (user) {
+            res.json({message: 'Found'});
+            return;
+        } else {
+            res.json({message: 'No Match'});
+            const newUser = new User({firstName, lastName, email, password, profilePhoto, reviews, year});
+            const savedUser = await newUser.save();
+            // res.json(savedUser);
+            console.log("Sign-up server connected")
+            return;
+        }
+    } catch (error) {
+        console.error("bad");
+        res.status(500).send("Server Error");
+    }
+})
 
 const CATALOG_OBJID = '655aa00fecfff2b51574ed70'
 app.get("/api/catalog", async (req, res) =>
