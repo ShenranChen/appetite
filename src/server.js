@@ -7,6 +7,7 @@ import mongoose from 'mongoose'
 import User from '../models/User.js'
 import Catalog from '../models/Catalog.js'
 import Food from '../models/Food.js'
+import Review from '../models/Review.js'
 
 const app = express()
 const PORT = process.env.PORT || 8081;
@@ -50,8 +51,6 @@ app.get("/api/catalog", async (req, res) => {
 app.get("/api/food", async (req, res) => {
     try {
         let food = await Food.find();
-        //const food = await Food.find();
-        console.log('got food:', food)
         res.json(food);
     }
     catch (error) {
@@ -59,3 +58,54 @@ app.get("/api/food", async (req, res) => {
         res.status(500).send("Server Error");
     }
 })
+
+app.get("/api/reviews", async (req, res) => {
+    try {
+        let reviews = await Review.find();
+        console.log('got reviews:', reviews)
+        res.json(reviews);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+})
+
+//middleware to parse JSON in the request body
+app.use(express.json());
+
+// Endpoint that handles adding new review 
+app.post("/api/reviews", async (req, res) => {
+    try {
+        console.log('hello review endpoint start')
+        console.log(req.body);
+        const { selectedFoodItem, reviewText, rating } = req.body;
+        //create new review 
+        console.log("Received Rating:", rating);
+        const newReview = new Review({
+            photo: "",
+            caption: reviewText,
+            rating: rating,
+        });
+        console.log("made a new review")
+        // save to reviews collection
+        const savedReview = await newReview.save();
+        // find the food item by ID
+        let foodItem = await Food.findById(selectedFoodItem);
+        if (!foodItem) {
+            return res.status(404).json({ error: "Food item not found" });
+        }
+        // add new review to reviews array of the food item
+        foodItem.reviews.push(savedReview._id);
+        console.log("added review to food review array!")
+
+        // update the average rating of food item here: 
+
+        // save updated food item
+        await foodItem.save();
+        res.json({ success: true, foodItem, savedReview });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server Error" });
+    }
+});

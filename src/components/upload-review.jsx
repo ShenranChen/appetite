@@ -10,6 +10,8 @@ const UploadReview = () => {
     const [foodItems, setFoodItems] = useState([]);
     const [selectedFoodItem, setSelectedFoodItem] = useState(null);
     const defaultLabel = 'Select An Item to Review: ';
+    const [rating, setRating] = useState(0);
+    const [reviewText, setReviewText] = useState('')
 
     useEffect(() => {
         axios.get("http://localhost:8081/api/food")
@@ -17,34 +19,45 @@ const UploadReview = () => {
             .catch(error => console.error("upload review page food fetch error " + error));
     }, []);
 
-    //testing to see if retrieved food 
-    useEffect(() => {
-        console.log('food:', foodItems);
-    }, [foodItems]);
-
     const handleDropdownChange = (foodItem) => {
-        setSelectedFoodItem(foodItem ? foodItem.value : null);
+        setSelectedFoodItem(foodItem ? foodItem._id : null);
         console.log(`Selected: ${foodItem ? foodItem.name : 'None'}`);
     };
 
-    const renderLabel = () => {
-        const selectedFoodItem = foodItems.find((item) => item.value === selectedFoodItem);
+    const handleRating = (ratingValue) => {
+        // Update the local state
+        setRating(ratingValue);
+    }
 
-        if (selectedFoodItem !== defaultLabel) {
-            return (
-                <Text style={styles.label}>
-                    {selectedFoodItem ? selectedFoodItem.label : 'None'}
-                </Text>
-            );
+    const handleSubmitReview = async () => {
+        try {
+            if (!selectedFoodItem) {
+                console.error("No food item selected.");
+                return;
+            }
+
+            const response = await fetch("http://localhost:8081/api/reviews", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    selectedFoodItem: selectedFoodItem,
+                    reviewText: reviewText,
+                    rating: rating,
+                }),
+            });
+
+            const data = await response.json(); // assuming the response is JSON
+
+            console.log("response json data:", data); // Handle the response as needed
+        } catch (error) {
+            console.error("Review submission error:", error);
         }
-
-        return <Text style={styles.label}>{defaultLabel}</Text>;
     };
-
 
     return (
         <View style={styles.center}>
-            {renderLabel()}
             <Dropdown
                 style={styles.dropdown}
                 inputSearchStyle={styles.inputSearchStyle}
@@ -60,31 +73,32 @@ const UploadReview = () => {
                 onChange={handleDropdownChange}
             //value={value}
             />
-            <Button icon="camera" mode="outlined" onPress={() => console.log('Pressed upload photo')} textColor='#3BADDE' theme={{ colors: { outline: '#3BADDE' } }} style={styles.button}>
-                Upload a photo
-            </Button>
             <AirbnbRating
-                style={{ alignSelf: 'center', marginBottom: 20 }}
+                style={{ alignSelf: 'center' }}
                 count={5}
                 reviews={["Terrible", "Bad", "Meh", "Pretty Good", "Amazing"]}
-                reviewSize={20}
+                reviewSize={18}
                 defaultRating={0}
                 size={20}
+                onFinishRating={handleRating}
             />
             <TextInput
-                style={{ width: '100%', height: 200, alignItems: 'center' }}
+                style={{ width: '100%', height: 200, /*alignItems: 'center'*/ }}
                 multiline={true}
                 mode="outlined"
-                label='Write Your Review'
+                label='Write Your Review Here...'
                 placeholder='Type Something...'
-                activeUnderlineColor='#3BADDE'
                 selectionColor='#3BADDE'
                 textColor='black'
-                //backgroundColor='#F4F0F0'
-                //theme={{ colors: { primary: '#fff' } }}
-                onChangeText={() => { }}
+                activeOutlineColor='#3BADDE'
+                onChangeText={(reviewText) => { setReviewText(reviewText) }}
+                backgroundColor='#F7FAFB'
+                theme={{ colors: { primary: 'gray' } }}
             />
-            <Button mode="contained" onPress={() => console.log('submit')} buttonColor='#3BADDE' style={styles.button}>
+            <Button icon="camera" mode="outlined" onPress={() => console.log('Pressed upload photo')} textColor='#3BADDE' theme={{ colors: { outline: '#3BADDE' } }} style={styles.button} contentStyle={{ width: 335 }}>
+                Upload a photo
+            </Button>
+            <Button mode="contained" onPress={handleSubmitReview} buttonColor='#3BADDE' style={styles.button} contentStyle={{ width: 335 }}>
                 Submit
             </Button>
         </View>
@@ -109,11 +123,15 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     dropdown: {
-        height: 20,
-        borderColor: '#F5F3F3',
-        borderWidth: 50,
-        borderRadius: 4,
-        paddingHorizontal: 4,
+        height: 40,
+        borderColor: 'gray',
+        borderRadius: 8,
+        borderWidth: 0.8,
+        paddingHorizontal: 50,
+        borderBottomColor: 'gray',
+        borderBottomWidth: 0.3,
+        borderTopWidth: 0.3,
+        //margin: 5,
     },
     inputSearchStyle: { // for the search bar 
         height: 40,
