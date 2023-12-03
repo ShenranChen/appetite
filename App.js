@@ -10,23 +10,25 @@ import Profile from './src/components/profile.jsx';
 import HomePage from './src/components/home-page.jsx';
 import UploadReview from './src/components/upload-review.jsx';
 import SignupPage from './src/components/signup-page.jsx';
+import { UserProvider } from './src/components/global-user.jsx';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Welcome">
-          <Stack.Screen name="Upload-Review" component={UploadReview} />
-          <Stack.Screen name="Welcome" component={WelcomePage} />
-          <Stack.Screen name="Profile" component={Profile}/>
-          <Stack.Screen name="Sign up for a new account" component={SignupPage}/>
-          <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
-        </Stack.Navigator>
-      </NavigationContainer>
+       <UserProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Welcome">
+            <Stack.Screen name="Upload-Review" component={UploadReview} />
+            <Stack.Screen name="Welcome" component={WelcomePage} />
+            <Stack.Screen name="Profile" component={Profile}/>
+            <Stack.Screen name="Sign up for a new account" component={SignupPage}/>
+            <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserProvider>
     </PaperProvider>
-
   );
 }
 

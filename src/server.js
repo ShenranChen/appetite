@@ -26,7 +26,7 @@ app.post('/api/check-user', async (req, res) => {
       const user = await User.findOne({ email, password })
       // Check if the user exists
       if (user) {
-        res.json({ message: 'Found' });
+        res.json({ message: 'Found' , userName: email});
       } else {
         res.json({ message: 'No Match' });
       }

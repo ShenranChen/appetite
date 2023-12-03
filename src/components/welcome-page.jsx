@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard, StyleSheet, Alert } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper'
 import axios from "axios"
-// import { useNavigation } from '@react-navigation/native';
+import { useUser } from './global-user.jsx'
 
 
 // const DismissKeyboard = ({ children }) => (
@@ -15,26 +15,21 @@ const WelcomePage = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [pass, setPass] = React.useState('');
   const [showPass, setShowPass] = React.useState(false);
+  const { user, updateUser } = useUser();
 
   const hasErrors = () => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    console.log(email.length)
+    // console.log(email.length)
     if (email.length == 0){
       return false;
     }
     return !emailRegex.test(email);
   }
 
-  const changePassVisibility = () =>{
-    setShowPass(!showPass);
-  }
-
   const handleSignIn = async () => {
     try {
       // Make API request to check user credentials
       const lowercasedEmail = email.toLowerCase();
-    //   console.log('Email:', lowercasedEmail);
-    // console.log('Password:', pass);
       const response = await axios.post('http://localhost:8081/api/check-user', {
         email: lowercasedEmail,
         password: pass,
@@ -43,7 +38,10 @@ const WelcomePage = ({navigation}) => {
           'Content-Type': 'application/json'
         }
       });
+
       if (response.data.message === 'Found') {
+        updateUser(response.data.userName);
+
         // Navigate to home upon successful sign-in
         navigation.navigate('Home');
       } else if (response.data.message === 'No Match'){
@@ -69,7 +67,7 @@ const WelcomePage = ({navigation}) => {
             onChangeText={newEmail => setEmail(newEmail)}
             keyboardType="email-address"
             autoCapitalize="none"/>
-          <HelperText type="error" visible={hasErrors}>
+          <HelperText type="error" visible={hasErrors()}>
             Email address is invalid!
           </HelperText>
         <TextInput label="Password" 
