@@ -10,11 +10,13 @@ import Profile from './src/components/profile.jsx';
 import HomePage from './src/components/home-page.jsx';
 import UploadReview from './src/components/upload-review.jsx';
 import SignupPage from './src/components/signup-page.jsx';
+import FoodListPage from './src/components/foodlist-page.jsx'
 import { UserProvider } from './src/components/global-user.jsx';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    // options={{ headerShown: false }}
   return (
     <PaperProvider>
        <UserProvider>
@@ -24,7 +26,8 @@ export default function App() {
             <Stack.Screen name="Welcome" component={WelcomePage} />
             <Stack.Screen name="Profile" component={Profile}/>
             <Stack.Screen name="Sign up for a new account" component={SignupPage}/>
-            <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+            <Stack.Screen name="Home" component={HomePage} />
+            <Stack.Screen name="FoodList" component={FoodListPage}/>
           </Stack.Navigator>
         </NavigationContainer>
       </UserProvider>
