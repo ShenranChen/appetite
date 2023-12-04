@@ -5,6 +5,7 @@ import { configureFonts, MD3LightTheme, PaperProvider, Button, TextInput } from 
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Dropdown } from 'react-native-element-dropdown';
 import axios from "axios"
+import Toast from 'react-native-toast-message';
 
 const UploadReview = () => {
     const [foodItems, setFoodItems] = useState([]);
@@ -12,6 +13,7 @@ const UploadReview = () => {
     const defaultLabel = 'Select An Item to Review: ';
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState('')
+    const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
 
     useEffect(() => {
         axios.get("http://localhost:8081/api/food")
@@ -32,7 +34,18 @@ const UploadReview = () => {
     const handleSubmitReview = async () => {
         try {
             if (!selectedFoodItem) {
-                console.error("No food item selected.");
+                Toast.show({
+                    type: 'error',
+                    text1: 'Please select an item to review!',
+                });
+                return;
+            }
+            // Display an error toast if rating is 0 or less
+            if (rating <= 0) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Please rate the item before submitting!',
+                });
                 return;
             }
 
@@ -50,7 +63,15 @@ const UploadReview = () => {
 
             const data = await response.json(); // assuming the response is JSON
 
-            console.log("response json data:", data); // Handle the response as needed
+            setIsReviewSubmitted(true)
+
+            Toast.show({
+                type: 'success',
+                text1: 'Review Submitted!',
+                visibilityTime: 2000, // millisecond = show for 2 secs
+            });
+
+            // if isReviewSubmitted , toast
         } catch (error) {
             console.error("Review submission error:", error);
         }

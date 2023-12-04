@@ -10,9 +10,26 @@ import Profile from './src/components/profile.jsx';
 import HomePage from './src/components/home-page.jsx';
 import UploadReview from './src/components/upload-review.jsx';
 import SignupPage from './src/components/signup-page.jsx';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 
 const Stack = createNativeStackNavigator();
+
+const toastConfig = {
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: 'green' }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 15,
+        fontWeight: '400',
+      }}
+    />
+  )
+  // Add configurations for other toast types if needed
+};
+
 
 export default function App() {
   return (
@@ -29,6 +46,7 @@ export default function App() {
 
         </Stack.Navigator>
       </NavigationContainer>
+      <Toast /*config={toastConfig}*/ />
     </PaperProvider>
 
   );
