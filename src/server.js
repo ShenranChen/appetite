@@ -173,7 +173,21 @@ app.post("/api/reviews", async (req, res) => {
         foodItem.reviews.push(savedReview._id);
         console.log("added review to food review array!")
 
-        // update the average rating of food item here: 
+        // update the average rating of food item: 
+        const existingRatings = await Promise.all(foodItem.reviews.map(async (reviewId) => { // get array of all the current ratings 
+            const review = await Review.findById(reviewId).select('rating');
+            return review.rating;
+        }));
+
+        console.log('current average rating', foodItem.averageRating)
+        const numRatings = existingRatings.length;
+        const sumOfRatings = existingRatings.reduce((total, rating) => total + rating, 0); //this adds up each rating to total 
+        console.log('sum of ratings: ', sumOfRatings)
+        const newAverageRating = (sumOfRatings + rating) / (numRatings + 1);
+
+        foodItem.averageRating = newAverageRating;
+        console.log('updated average rating', foodItem.averageRating)
+
 
         // save updated food item
         await foodItem.save();

@@ -10,10 +10,27 @@ import Profile from './src/components/profile.jsx';
 import HomePage from './src/components/home-page.jsx';
 import UploadReview from './src/components/upload-review.jsx';
 import SignupPage from './src/components/signup-page.jsx';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import FoodListPage from './src/components/foodlist-page.jsx'
 import { UserProvider } from './src/components/global-user.jsx';
 
 const Stack = createNativeStackNavigator();
+
+const toastConfig = {
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: 'green' }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 15,
+        fontWeight: '400',
+      }}
+    />
+  )
+  // Add configurations for other toast types if needed
+};
+
 
 export default function App() {
     // options={{ headerShown: false }}
@@ -30,6 +47,7 @@ export default function App() {
             <Stack.Screen name="FoodList" component={FoodListPage}/>
           </Stack.Navigator>
         </NavigationContainer>
+        <Toast /*config={toastConfig}*/ />
       </UserProvider>
     </PaperProvider>
   );
