@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 
 function DHallSelectionButton({ caption, image, onPress }) {
@@ -35,13 +36,44 @@ function BottomBar() {
 };
 
 
-export default function HomePage() {
+const LETTER_DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+export default function HomePage()
+{
+    const navigation = useNavigation();
+    const checkEpicAndNavigate = (diningHall) =>
+    {
+        let date = new Date();
+        let currentHour = date.getHours();
+        let currentDay = date.getDay();
+        let time = '';
+        if (currentHour > 16)
+            time = 'dinner';
+        else if (currentHour > 10)
+            time = 'lunch';
+        else
+            time = 'breakfast'
+        // Epicuria only available Sun-Thu dinner time
+        if (diningHall == 'epic' && !([0, 1, 2, 3, 4].includes(currentDay) && time == 'dinner'))
+        {
+            Alert.alert('Dining Hall Closed', 'Sorry, Epicuria is closed.\nHours is Mon-Thu at dinner time.');
+            return;
+        }
+        // If dining hall is open, fetch from backend and populate the food list page
+        axios.get('http://localhost:8081/api/catalog')
+        .then(res =>
+        {
+            let listOfFood = res.data[0][LETTER_DAYS[currentDay]][time][diningHall];
+            navigation.navigate('FoodList', listOfFood);
+        })
+        .catch(error => console.error(error));
+    }
+
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
-                <DHallSelectionButton caption="BPlate" image={require('../../assets/bplate-icon.png')} />
-                <DHallSelectionButton caption="De Neve" image={require('../../assets/deneve-icon.png')} />
-                <DHallSelectionButton caption="Epicuria" image={require('../../assets/epicuria-icon.png')} />
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 100 }}>
+                <DHallSelectionButton caption="BPlate" image={require('../../assets/bplate-icon.png')} onPress={() => checkEpicAndNavigate('bplate')} />
+                <DHallSelectionButton caption="De Neve" image={require('../../assets/deneve-icon.png')} onPress={() => checkEpicAndNavigate('deneve')} />
+                <DHallSelectionButton caption="Epicuria" image={require('../../assets/epicuria-icon.png')} onPress={() => checkEpicAndNavigate('epic')} />
             </View>
             <BottomBar />
         </View>
