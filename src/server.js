@@ -12,27 +12,87 @@ import Review from '../models/Review.js'
 const app = express()
 const PORT = process.env.PORT || 8081;
 
-app.listen(PORT, () => console.log('server running on port ${PORT}'));
-
 
 mongoose.connect("mongodb+srv://jasontchan:Appetite123@appetite.uy0okn0.mongodb.net/dhh-data?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+console.log("running app")
+app.use(express.json());
+app.post('/api/check-user', async (req, res) => {
+    try {
+    console.log('Request Body:', req.body)
+      const { email, password } = req.body;
+      const user = await User.findOne({ email, password })
+      // Check if the user exists
+      if (user) {
+        res.json({ message: 'Found' , userName: email});
+      } else {
+        res.json({ message: 'No Match' });
+      }
+    } catch (error) {
+      console.error('Error checking credentials:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
+
+app.get("/api/users/:email", async (req, res) => {
+    try {
+        const userEmail = req.params.email;
+        console.log("the users email in api call: ", userEmail)
+        const user = await User.findOne({ email: userEmail});
+        if (!user) {
+            return res.status(404).json({error: "User not found"});
+        }
+        console.log("specific user from email:", user)
+        res.json(user);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send("Server Error");
+    }
+});
 
 
 app.get("/api/users", async (req, res) => {
     try {
-        const users = await User.find();
-        res.json('yeah');
-        console.log("here A")
+        console.log('response:',res.body)
+        let users = await User.find();
+        console.log("users:", users)
+        res.json(users);
+        console.log("here C")
+        console.log("works")
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching data:', error);
+        res.status(500).send("Server Error");
+
+    }
+});
+
+app.post("/api/sign-up", async (req, res) => {
+    try {
+        console.log("sign-up");
+        console.log(req.body);
+
+        const {firstName, lastName, email, password, profilePhoto, reviews, year} = req.body;
+        const user = await User.findOne({email});
+
+        if (user) {
+            res.json({message: 'Found'});
+            return;
+        } else {
+            res.json({message: 'No Match'});
+            const newUser = new User({firstName, lastName, email, password, profilePhoto, reviews, year});
+            const savedUser = await newUser.save();
+            // res.json(savedUser);
+            console.log("Sign-up server connected")
+            return;
+        }
+    } catch (error) {
+        console.error("bad");
         res.status(500).send("Server Error");
     }
 })
-
 
 const CATALOG_OBJID = '655aa00fecfff2b51574ed70'
 app.get("/api/catalog", async (req, res) => {
@@ -52,6 +112,20 @@ app.get("/api/food", async (req, res) => {
     try {
         let food = await Food.find();
         res.json(food);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+//api to get ONE review by ID
+app.get("/api/reviews/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        let review = await Review.findById(id);
+        console.log('got reviews w certain ID:', review)
+        res.json(review);
     }
     catch (error) {
         console.error(error);
