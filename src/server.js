@@ -12,14 +12,14 @@ import Review from '../models/Review.js'
 const app = express()
 const PORT = process.env.PORT || 8081;
 
-app.listen(PORT, () => console.log('server running on port ${PORT}'));
+app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
 
 mongoose.connect("mongodb+srv://jasontchan:Appetite123@appetite.uy0okn0.mongodb.net/dhh-data?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
-
+console.log("running app")
 app.use(express.json());
 app.post('/api/check-user', async (req, res) => {
     try {
@@ -38,13 +38,30 @@ app.post('/api/check-user', async (req, res) => {
     }
   });
 
+
+app.get("/api/users/:email", async (req, res) => {
+    try {
+        const userEmail = req.params.email;
+        console.log("the users email in api call: ", userEmail)
+        const user = await User.findOne({ email: userEmail});
+        if (!user) {
+            return res.status(404).json({error: "User not found"});
+        }
+        console.log("specific user from email:", user)
+        res.json(user);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send("Server Error");
+    }
+});
+
 app.get("/api/users", async (req, res) => {
     try {
-        console.log("here E")
-        const user = await User.find();
-        // console.log("here B")
-        res.json(user);
-        // console.log("here C")
+        console.log('response:',res.body)
+        let users = await User.find();
+        console.log("users:", users)
+        res.json(users);
+        console.log("here C")
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).send("Server Error");
@@ -76,6 +93,20 @@ app.get("/api/food", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
+//api to get ONE review by ID
+app.get("/api/reviews/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        let review = await Review.findById(id);
+        console.log('got reviews w certain ID:', review)
+        res.json(review);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+})
 
 app.get("/api/reviews", async (req, res) => {
     try {

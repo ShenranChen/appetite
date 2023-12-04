@@ -3,6 +3,7 @@ import { View, TouchableWithoutFeedback, Keyboard, StyleSheet, Alert } from 'rea
 import { Button, HelperText, TextInput } from 'react-native-paper'
 import axios from "axios"
 import { useUser } from './global-user.jsx'
+import Review from './review.jsx'
 
 
 // const DismissKeyboard = ({ children }) => (

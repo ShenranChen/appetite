@@ -20,7 +20,7 @@ export default function App() {
        <UserProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Welcome">
-            <Stack.Screen name="Upload-Review" component={UploadReview} />
+            <Stack.Screen name="Upload Review" component={UploadReview} />
             <Stack.Screen name="Welcome" component={WelcomePage} />
             <Stack.Screen name="Profile" component={Profile}/>
             <Stack.Screen name="Sign up for a new account" component={SignupPage}/>
