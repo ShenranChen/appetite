@@ -4,7 +4,8 @@ const { Schema, model } = mongoose
 const ReviewSchema = new Schema({
     photo: String,
     caption: String,
-    rating: Number
+    rating: Number,
+    item: String
 })
 
 const Review = model('Review', ReviewSchema, 'reviews')

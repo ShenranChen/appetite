@@ -29,6 +29,7 @@ function BottomBar() {
         <Appbar style={[styles.bottom, { height: BOTTOM_APPBAR_HEIGHT + bottom }]} safeAreaInsets={{ bottom }}>
             <Appbar.Action icon={require('../../assets/search-icon.png')} onPress={() => { }} style={{ marginRight: APPBAR_ACTION_HPAD, marginTop: APPBAR_ACTION_VPAD }} size={APPBAR_ACTION_SIZE} />
             <Appbar.Action icon={require('../../assets/add-icon.png')} onPress={() => { navigation.navigate("Upload Review") }} style={{ marginLeft: APPBAR_ACTION_HPAD, marginTop: APPBAR_ACTION_VPAD }} size={APPBAR_ACTION_SIZE} />
+            <Appbar.Action icon={require('../../assets/profile-icon.png')} onPress={() => { navigation.navigate("Profile") }} style={{ marginLeft: APPBAR_ACTION_HPAD, marginTop: APPBAR_ACTION_VPAD }} size={APPBAR_ACTION_SIZE} />
         </Appbar>
     );
 };
