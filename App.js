@@ -39,7 +39,7 @@ export default function App() {
     <PaperProvider>
        <UserProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="Welcome">
             <Stack.Screen name="Upload Review" component={UploadReview} />
             <Stack.Screen name="Welcome" component={WelcomePage} />
             <Stack.Screen name="Profile" component={Profile}/>
