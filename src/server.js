@@ -19,6 +19,10 @@ mongoose.connect("mongodb+srv://jasontchan:Appetite123@appetite.uy0okn0.mongodb.
 });
 console.log("running app")
 app.use(express.json());
+app.listen(PORT, () => 
+{
+    console.log(`Listening on port ${PORT}`);
+});
 app.post('/api/check-user', async (req, res) => {
     try {
     console.log('Request Body:', req.body)
