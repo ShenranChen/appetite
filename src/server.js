@@ -12,17 +12,15 @@ import Review from '../models/Review.js'
 const app = express()
 const PORT = process.env.PORT || 8081;
 
+app.listen(PORT, () => console.log('server running on port ${PORT}'));
 
 mongoose.connect("mongodb+srv://jasontchan:Appetite123@appetite.uy0okn0.mongodb.net/dhh-data?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
 console.log("running app")
-app.use(express.json());
-app.listen(PORT, () => 
-{
-    console.log(`Listening on port ${PORT}`);
-});
+app.use(express.json({ limit: '10mb' }));
 app.post('/api/check-user', async (req, res) => {
     try {
     console.log('Request Body:', req.body)
@@ -78,7 +76,7 @@ app.post("/api/sign-up", async (req, res) => {
         console.log("sign-up");
         console.log(req.body);
 
-        const {firstName, lastName, email, password, profilePhoto, reviews, year} = req.body;
+        const {firstName, lastName, email, password, profilePhoto, reviews, favoriteFoods, badges, year} = req.body;
         const user = await User.findOne({email});
 
         if (user) {
@@ -86,10 +84,21 @@ app.post("/api/sign-up", async (req, res) => {
             return;
         } else {
             res.json({message: 'No Match'});
-            const newUser = new User({firstName, lastName, email, password, profilePhoto, reviews, year});
+
+            const newUser = new User({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                profilePhoto: profilePhoto,
+                reviews: reviews,
+                favoriteFoods: favoriteFoods,
+                badges: badges,
+                year: year,
+            });
             const savedUser = await newUser.save();
             // res.json(savedUser);
-            console.log("Sign-up server connected")
+            console.log("User created")
             return;
         }
     } catch (error) {
