@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Image } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { Text, TextInput, Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 import axios from 'axios';
-
+import * as ImagePicker from 'expo-image-picker';
 
 const signUpStyles = StyleSheet.create({
     button: {
@@ -40,6 +40,12 @@ const signUpStyles = StyleSheet.create({
         fontSize: 12,
         textColor: '#ff0000',
     },
+    image: {
+        width: 100, 
+        height: 100,
+        alignSelf: 'center',
+        marginTop: '3%',
+    },
 });
 
 const SignupPage = () => {
@@ -50,7 +56,9 @@ const SignupPage = () => {
     const [pw, setPw] = React.useState("");
     const [reEnterPassword, setReEnterPassword] = React.useState("");
     const [revs, setRevs] = React.useState([]);
-    const [profilePicture, setProfilePicture] = React.useState("");
+    const [favFoods, setFavFoods] = React.useState([]);
+    const [badges, setBadges] = React.useState([]);
+    const [profilePicture, setProfilePicture] = React.useState(null);
 
     const [showPassword, setShowPassword] = React.useState(false); 
     const [showReEnterPassword, setShowReEnterPassword] = React.useState(false); 
@@ -58,7 +66,6 @@ const SignupPage = () => {
     const [showIncompleteInfo, setShowIncompleteInfo] = React.useState(false)
     const [showIncorrectPassword, setShowIncorrectPassword] = React.useState(false)
 
-    const [userTaken, setUserTaken] = React.useState(false);
     const [userTakenText, setUserTakenText] = React.useState(false);
 
     const [createdAccMessage, setCreatedAccMessage] = React.useState(false);
@@ -71,7 +78,40 @@ const SignupPage = () => {
         { label: '2024', value: 4 },
     ];
 
-    
+    const pickImage = async () => {
+        try {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                // await requestPermissions();
+                console.log('Permission denied');
+                return; // Don't proceed if permissions are not granted
+            }
+            // else
+            console.log('Permission granted');
+            const options = {
+                mediaType: ImagePicker.MediaTypeOptions.Images,
+                base64: true, // request image as base64 format
+            };
+
+            const image = await ImagePicker.launchImageLibraryAsync(options);
+            if (image.canceled) {
+                console.log("image picker cancelled")
+                return;
+            }
+            else {
+                const selectedImage = image.assets[0];
+                setProfilePicture({
+                    uri: selectedImage.uri,
+                    base64: selectedImage.base64,
+                  });
+                console.log("Selected Image: ", selectedImage.uri, "and base 64: ", selectedImage.base64);
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const toggleShowPassword = () => { 
         setShowPassword(!showPassword); 
@@ -89,14 +129,29 @@ const SignupPage = () => {
     const storeUser = async () => {
         try {
             console.log("storing");
-            const response = await axios.post('http://localhost:8081/api/sign-up', {
+            let photoBase64String = "";
+
+            if (profilePicture) {
+                // convert image to base64
+                photoBase64String = profilePicture.base64;
+                console.log("photoBase64String", profilePicture.base64);
+                console.log("uri:", profilePicture.uri);
+            }
+
+            const userData = {
                 firstName: first,
                 lastName: last,
                 email: uclaEmail,
                 password: pw,
-                profilePhoto: profilePicture, 
+                profilePhoto: photoBase64String,
                 reviews: revs,
+                favoriteFoods: favFoods,
+                badges: badges,
                 year: yr,
+            };
+            console.log("got here");
+            const response = await axios.post('http://localhost:8081/api/sign-up', userData, {
+                headers: { 'Content-Type': 'application/json' },
             });
             if (response.data.message === 'Found') {
                 setUserTakenText(true);
@@ -211,9 +266,10 @@ const SignupPage = () => {
                         right={<TextInput.Icon icon={showReEnterPassword ? 'eye-off' : 'eye'} onPress = {toggleShowReEnterPassword}/>}
                         onChangeText={reEnterPassword => setReEnterPassword(reEnterPassword)}
                     />
-                    <Button testID="uploadPicture" icon="camera" mode="outlined" onPress={() => console.log("photo upload")} textColor='#3BADDE' theme={{ colors: { outline: '#3BADDE' } }} style={signUpStyles.uploadPicture}>
+                    <Button testID="uploadPicture" icon="camera" mode="outlined" onPress={pickImage} textColor='#3BADDE' theme={{ colors: { outline: '#3BADDE' } }} style={signUpStyles.uploadPicture}>
                         Upload a profile photo (optional)
                     </Button>
+                    {profilePicture && <Image source={{ uri: profilePicture.uri }} style={signUpStyles.image} />}
                     <Button mode="contained" onPress={handleSignUp} style = {signUpStyles.button}>
                         Sign up
                     </Button>
