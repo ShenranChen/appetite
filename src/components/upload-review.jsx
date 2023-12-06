@@ -6,6 +6,7 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Dropdown } from 'react-native-element-dropdown';
 import axios from "axios"
 import Toast from 'react-native-toast-message';
+import { useUser } from './global-user.jsx'
 
 const UploadReview = () => {
     const [foodItems, setFoodItems] = useState([]);
@@ -14,6 +15,22 @@ const UploadReview = () => {
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState('')
     const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
+
+    //NEW STUFF
+    const { user } = useUser();
+    const [currUser, setCurrUser] = useState([]);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8081/api/users/${user}`)
+            .then(response => {
+                setCurrUser(response.data)
+            })
+            .catch(error => console.error("AAAA- upload review " + error));
+    }, [user]);
+
+    //console.log(currUser);
+
+    //NEW STUFF
 
     useEffect(() => {
         axios.get("http://localhost:8081/api/food")
@@ -58,6 +75,7 @@ const UploadReview = () => {
                     selectedFoodItem: selectedFoodItem,
                     reviewText: reviewText,
                     rating: rating,
+                    user: currUser,
                 }),
             });
 
