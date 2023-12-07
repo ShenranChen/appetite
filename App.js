@@ -13,6 +13,7 @@ import SignupPage from './src/components/signup-page.jsx';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import FoodListPage from './src/components/foodlist-page.jsx'
 import FoodPage from './src/components/food-page.jsx'
+import BadgePage from './src/components/badge-page.jsx'
 import { UserProvider } from './src/components/global-user.jsx';
 
 const Stack = createNativeStackNavigator();
@@ -39,7 +40,7 @@ export default function App() {
     <PaperProvider>
        <UserProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Welcome">
+          <Stack.Navigator initialRouteName="Badge">
             <Stack.Screen name="Upload Review" component={UploadReview} />
             <Stack.Screen name="Welcome" component={WelcomePage} />
             <Stack.Screen name="Profile" component={Profile}/>
@@ -47,6 +48,7 @@ export default function App() {
             <Stack.Screen name="Home" component={HomePage} />
             <Stack.Screen name="FoodList" component={FoodListPage}/>
             <Stack.Screen name="Food" component={FoodPage}/>
+            <Stack.Screen name="Badge" component={BadgePage}/>
           </Stack.Navigator>
         </NavigationContainer>
         <Toast /*config={toastConfig}*/ />
