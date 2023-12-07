@@ -24,13 +24,18 @@ const Search = ({navigation}) => {
 
 
   const onChangeSearch = query => setSearchQuery(query);
+  const filteredFoods = foodData.filter(
+    (foodData) =>
+    foodData.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const renderFood = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('Food', item._id )}>
         <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
             <Text>{item.name}</Text>
         </View>
     </TouchableOpacity>
-  )
+  );
 
   return (
     <SafeAreaView>
@@ -44,7 +49,7 @@ const Search = ({navigation}) => {
       value={searchQuery}
     />
     <FlatList 
-          data={foodData}
+          data={filteredFoods}
           renderItem={renderFood} 
           keyExtractor={(item) => item._id} 
     /> 
