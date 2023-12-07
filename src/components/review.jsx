@@ -8,7 +8,7 @@ import { IconButton, MD3Colors } from 'react-native-paper';
 import axios from "axios"
 
 
-const Review = ({ itemName, rating, caption, photoExists, photoString }) => {
+const Review = ({ itemName, rating, caption, id, photoExists, photoString }) => {
 
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
@@ -92,12 +92,6 @@ const Review = ({ itemName, rating, caption, photoExists, photoString }) => {
                         {photoExists && <Image 
                             source={{uri : `data:image/jpeg;base64,${photoString}`}}
                             style={{width:150, height:75, borderRadius: 10}} />}
-                    </View>
-                    <View style={{ flex: 0, alignItems: "start", justifyContent: "end", margin: 10, gap: 10 }}>
-                        <Text variant="bodyMedium">{caption}</Text>
-                        <Image
-                            source={require('../../assets/bplate-icon.png')}
-                            style={{ width: 150, height: 75, borderRadius: 10 }} />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
                         <IconButton

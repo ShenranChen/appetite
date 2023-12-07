@@ -48,6 +48,7 @@ export default function FoodPage(props) {
                 rating={res.data.rating}
                 caption={res.data.caption}
                 key={res.data._id}
+                id={res.data._id}
                 photoExists={(res.data.photo != "")}
                 photoString={res.data.photo}
               />
