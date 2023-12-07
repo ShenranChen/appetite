@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios"
-import { View,  Image, ScrollView } from "react-native";
+import { View, Image, ScrollView } from "react-native";
 import { Text } from "react-native-paper";
 import { useUser } from './global-user.jsx'
 import Review from './review.jsx'
 
 const Profile = () => {
-  const {user} = useUser();
+  const { user } = useUser();
 
   const [currUser, setCurrUser] = useState([]);
   const [usersReviews, setUsersReviews] = useState([]);
@@ -27,8 +27,6 @@ const Profile = () => {
         setUseDefaultPhoto(false);
     })
     .catch(error => console.error("AAAAAAAAAAAAAAA" + error));
-    
-    
   }, [user]);
 
   useEffect(() => {
@@ -36,10 +34,10 @@ const Profile = () => {
     if (userFetched && usersReviews) {
       for (let i = 0; i < usersReviews.length; i++) {
         axios.get(`http://localhost:8081/api/reviews/${usersReviews[i]}`)
-        .then(response => {
-          setReviews(prevData => [...prevData, response.data])
-        })
-        .catch(error => console.error("oopsies" + error));
+          .then(response => {
+            setReviews(prevData => [...prevData, response.data])
+          })
+          .catch(error => console.error("oopsies" + error));
       }
     }
   }, [userFetched, usersReviews])
@@ -80,7 +78,6 @@ const Profile = () => {
         }
         </ScrollView>
       </View>
-    </View>
     </>
   );
 };
