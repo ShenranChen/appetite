@@ -30,19 +30,32 @@ const Review = ({ itemName, rating, caption, id }) => {
 
     const handleLikePress = async () => {
         try {
-
+            let response;
             console.log(reviews)
-            // request to update likes for the review by ID
-            const response = await fetch(`http://localhost:8081/api/reviews/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    //
-                }),
-            });
-            console.log('Response status:', response.status);
+            if (liked) {
+                // If liked, send a request to decrement likes
+                response = await fetch(`http://localhost:8081/api/reviews/${id}/unlike`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        //
+                    }),
+                });
+                console.log('Response status:', response.status);
+            } else { //unliked so request to increment likes 
+                response = await fetch(`http://localhost:8081/api/reviews/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        //
+                    }),
+                });
+                console.log('Response status:', response.status);
+            }
 
             // response gives the updated review with likes
             console.log('im here');
@@ -79,14 +92,15 @@ const Review = ({ itemName, rating, caption, id }) => {
                             source={require('../../assets/bplate-icon.png')}
                             style={{ width: 150, height: 75, borderRadius: 10 }} />
                     </View>
-                    <IconButton
-                        icon={liked ? 'heart' : 'heart-outline'}
-                        iconColor="#3BADDE"
-                        size={20}
-                        onPress={handleLikePress}
-                        style={{ alignSelf: 'flex-end' }}
-                    />
-                    <Text>{likeCount}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                        <IconButton
+                            icon={liked ? 'heart' : 'heart-outline'}
+                            iconColor="#3BADDE"
+                            size={20}
+                            onPress={handleLikePress}
+                        />
+                        <Text>{likeCount}</Text>
+                    </View>
                 </Card.Content>
 
             </Card>
