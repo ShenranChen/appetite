@@ -83,7 +83,7 @@ const WelcomePage = ({navigation}) => {
       <View style={styles.login} >
           <Button style={styles.button} mode='contained' disabled={email.length == 0 || pass.length== 0} onPress={handleSignIn}>Sign In</Button>
           <View style={styles.redirection}>
-            <Button style={{marginLeft: 40}} textColor='#3CADDE' onPress={() => {navigation.navigate('Sign up for a new account')}}>Sign Up</Button>
+            <Button style={{marginLeft: 40}} textColor='#3CADDE' onPress={() => {navigation.navigate('Sign Up')}}>Sign Up</Button>
             <Button style={{marginLeft: 90}} textColor='#3CADDE'onPress={() => {}}> Forgot Password?</Button>
           </View>
       </View>

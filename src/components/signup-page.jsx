@@ -15,26 +15,34 @@ const signUpStyles = StyleSheet.create({
     },
     uploadPicture: {
         alignSelf: 'center',
-        marginTop: '3%',
+        marginTop: '5%',
         justifyContent: 'flex-end'
     },
     text: {
         fontSize: 18,
     },
     textInput: {
+        backgroundColor: 'transparent',
 
     },
     dropdown: {
-        margin: 5,
+        margin: 2,
+        marginTop: 20,
         //height: 50,
         borderBottomColor: 'gray',
         borderBottomWidth: 0.5,
     },
     placeholderStyle: {
-        fontSize: 18,
+        fontSize: 16,
+        marginLeft: 14,
+        marginBottom: 15,
+        color: '#444444',
     },
     selectedTextStyle: {
-        fontSize: 18,
+        fontSize: 17,
+        marginLeft: 15,
+        marginBottom: 15,
+        color: '#444444'
     },
     showAfterSubmit: {
         fontSize: 12,
@@ -71,7 +79,7 @@ const SignupPage = () => {
     const [createdAccMessage, setCreatedAccMessage] = React.useState(false);
 
     const yearData = [
-        { label: 'Select year', value: null },
+        { label: 'Select Year', value: null },
         { label: '2027', value: 1 },
         { label: '2026', value: 2 },
         { label: '2025', value: 3 },
@@ -195,38 +203,41 @@ const SignupPage = () => {
         <ScrollView>
             <KeyboardAwareScrollView extraHeight={10}>
                 <View style = {{padding: 10}}>
-                    <Text variant="bodyLarge" style = {signUpStyles.text}>First Name: *</Text>
+                    {/* <Text variant="bodyLarge" style = {signUpStyles.text}>First Name: *</Text> */}
                     <TextInput
-                        label="First Name"
+                        label="First Name* "
                         value={first}
-                        mode = "outlined"
+                        // mode = "outlined"
                         autoFocus ={true}
+                        activeUnderlineColor='#3CADDE'
                         style = {signUpStyles.textInput}
                         onChangeText={first => setFirst(first)}
                     />
-
-                    <Text variant="bodyLarge" style = {signUpStyles.text}>Last Name: *</Text>
+{/* 
+                    <Text variant="bodyLarge" style = {signUpStyles.text}>Last Name: *</Text> */}
                     <TextInput
-                        label="Last Name"
+                        label="Last Name*"
                         value={last}
-                        mode = "outlined"
+                        // mode = "outlined"
                         autoFocus ={true}
+                        activeUnderlineColor='#3CADDE'
                         style = {signUpStyles.textInput}
                         onChangeText={last => setLast(last)}
                     />
 
-                    <Text variant="bodyLarge" style = {signUpStyles.text}>UCLA email: *</Text>
+                    {/* <Text variant="bodyLarge" style = {signUpStyles.text}>UCLA email: *</Text> */}
                     <TextInput
-                        label="UCLA Email"
+                        label="UCLA Email*"
                         value={uclaEmail}
-                        mode = "outlined"
+                        // mode = "outlined"
+                        activeUnderlineColor='#3CADDE'
                         autoCapitalize="none"
                         autoFocus ={true}
                         style = {signUpStyles.textInput}
                         onChangeText={uclaEmail => setUclaEmail(uclaEmail)}
                     />
 
-                    <Text variant="" style = {signUpStyles.text}>Year: *</Text>
+                    {/* <Text variant="" style = {signUpStyles.text}>Year: *</Text> */}
                     <Dropdown
                         style={signUpStyles.dropdown}
                         placeholderStyle={signUpStyles.placeholderStyle}
@@ -234,18 +245,19 @@ const SignupPage = () => {
                         data={yearData}
                         labelField="label"
                         valueField="value"
-                        placeholder="Select year"
+                        placeholder="Select Year*"
                         value={yr}
                         onChange={item => {
                             setYr(item.value);
                         }}
                     />
 
-                    <Text variant="bodyLarge" style = {signUpStyles.text}>Password: *</Text>
+                    {/* <Text variant="bodyLarge" style = {signUpStyles.text}>Password: *</Text> */}
                     <TextInput
-                        label="Password"
+                        label="Password*"
                         value={pw}
-                        mode = "outlined"
+                        // mode = "outlined"
+                        activeUnderlineColor='#3CADDE'
                         autoCapitalize="none"
                         autoFocus ={true}
                         style = {signUpStyles.textInput}
@@ -254,11 +266,12 @@ const SignupPage = () => {
                         onChangeText={pw => setPw(pw)}
                     />
 
-                    <Text variant="bodyLarge" style = {signUpStyles.text}>Re-enter Password: *</Text>
+                    {/* <Text variant="bodyLarge" style = {signUpStyles.text}>Re-enter Password: *</Text> */}
                     <TextInput
-                        label="Re-enter Password"
+                        label="Re-enter Password*"
                         value={reEnterPassword}
-                        mode = "outlined"
+                        // mode = "outlined"
+                        activeUnderlineColor='#3CADDE'
                         autoCapitalize="none"
                         autoFocus ={true}
                         style = {signUpStyles.textInput}
