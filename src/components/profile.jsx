@@ -71,31 +71,12 @@ const Profile = () => {
           reviews.length === 0 ? (
             <Text>Loading...</Text>
           ) : (
-            <>
-              <Text variant="titleLarge">{currUser.firstName}'s Profile</Text>
-              <Image
-                source={require("../../assets/IMG_5264.jpg")}
-                style={{ width: 200, height: 200, borderRadius: 200 / 2 }} />
-              <Text variant="bodyMedium">Name: {currUser.firstName + " " + currUser.lastName}</Text>
-              <Text variant="bodyMedium">Year: {currUser.year}</Text>
-              <Text variant="bodyMedium">Reviews Posted: {currUser.reviews.length}</Text>
-            </>
-          )}
-        </View>
-        <View style={{ flex: 2, alignItems: "end", justifyContent: "space-evenly", margin: 20, gap: 10 }}>
-          <Text variant="titleMedium">Your reviews:</Text>
-          <ScrollView >
-            {
-              reviews.length === 0 ? (
-                <Text>Loading...</Text>
-              ) : (
-                reviews.map((value, index) => (
-                  <Review key={index} itemName={value.item} rating={value.rating} caption={value.caption} id={value._id} />
-                ))
-              )
-            }
-          </ScrollView>
-        </View>
+            reviews.map((value, index) => (
+            <Review key={index} itemName={value.item} rating={value.rating} caption={value.caption} photoExists={(value.photo != "")} photoString={value.photo}/>
+          ))
+          )
+        }
+        </ScrollView>
       </View>
     </>
   );
