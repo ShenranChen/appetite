@@ -1,5 +1,5 @@
 # APPetite
-<div style="align-items: center;">
+<div style="margin: 0 auto; text-align: center;">
   <img src="./images/App-logo.png" alt="APPetite Logo" width="200" height="200">
 </div>
 
