@@ -1,11 +1,12 @@
 # APPetite
-![APPetite Logo](./images/App-logo.png)
-_APPetite_ is mobile application designed to enhance the dining experience for UCLA students. The platform serves as a yelp for the three dining halls, allowing students to rate the individual dishes and see previous reviews for dishes the dining halls is serving that day. It will also be a catalog for dishes that have been served in the past, helping students plan ahead (especially useful for those that stalk UCLA dining). 
+![APPetite Logo](./images/App-logo.png)  
+**_APPetite_** is mobile application designed to enhance the dining experience for UCLA students. The platform serves as a yelp for the three dining halls, allowing students to rate the individual dishes and see previous reviews for dishes the dining halls is serving that day. It will also be a catalog for dishes that have been served in the past, helping students plan ahead (especially useful for those that stalk UCLA dining). 
 
 ## Table of Contents
+- [Why APPetite?](https://github.com/ShenranChen/appetite/#why-appetite)
 - [Features](https://github.com/ShenranChen/appetite/#features)
-- [How to run](https://github.com/ShenranChen/appetite/#technologies)
-- [How to shutdown](https://github.com/ShenranChen/appetite/#setup)
+- [How to run](https://github.com/ShenranChen/appetite/#how-to-run)
+- [How to shutdown](https://github.com/ShenranChen/appetite/#how-to-shutdown)
 - [Authors](https://github.com/ShenranChen/appetite/#authors)
 
 ## Why APPetite?
