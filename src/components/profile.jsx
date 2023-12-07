@@ -23,6 +23,8 @@ const Profile = () => {
       setUsersReviews(response.data.reviews) //should be array of review IDs [34329f432e90, 42c342da34, 54352b452f43]
       setUserFetched(true);
       setProfilePhotoString(response.data.profilePhoto);
+      if (response.data.profilePhoto != '')
+        setUseDefaultPhoto(false);
     })
     .catch(error => console.error("AAAAAAAAAAAAAAA" + error));
     
@@ -42,11 +44,6 @@ const Profile = () => {
     }
   }, [userFetched, usersReviews])
 
-
-  if (profilePhotoString != "") {
-    setUseDefaultPhoto(false);
-  }
-
   return (
     <>
     <View style={{flex: 1, alignItems:"center", justifyContent: "center", gap: 20}}>
@@ -61,7 +58,7 @@ const Profile = () => {
           source={require("../../assets/default-profile-icon.jpg")}  
           style={{width: 200, height: 200, borderRadius: 200/ 2}} />} 
         {!useDefaultPhoto && <Image 
-          source={{uri : 'data:image/jpeg;base64,${profilePhotoString}'}}  
+          source={{uri : `data:image/jpeg;base64,${profilePhotoString}`}}  
           style={{width: 200, height: 200, borderRadius: 200/ 2}} />} 
         <Text variant="bodyMedium">Name: {currUser.firstName + " " + currUser.lastName}</Text>
         <Text variant="bodyMedium">Year: {currUser.year}</Text>
