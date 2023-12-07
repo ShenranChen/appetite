@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { IconButton } from 'react-native-paper';
 import Review from '../components/review.jsx'
 
 
@@ -25,6 +26,7 @@ export default function FoodPage(props) {
     const [avgRating, setAvgRating] = useState(0);
     const [reviewList, setReviewList] = useState([]);
     const [ratingsComp, setRatingsComp] = useState(ratingsComponent);
+    const [favorited, setFavorited] = useState(false);
   
     useEffect(() => {
       const fetchData = async () => {
@@ -48,6 +50,9 @@ export default function FoodPage(props) {
                 rating={res.data.rating}
                 caption={res.data.caption}
                 key={res.data._id}
+                id={res.data._id}
+                photoExists={(res.data.photo != "")}
+                photoString={res.data.photo}
               />
             ));
 
@@ -67,11 +72,34 @@ export default function FoodPage(props) {
   
       fetchData();
     }, [foodID]);
+
+    const addFavorite = async () => {
+      try {
+        console.log("Does nothing for now");
+        // if it's favorited right now and user unfavorited do this:
+        if (favorited) { // currently already favorited so do unfavorited stuff
+          
+        }
+        // else add favorite
+        else {
+
+        }
+        setFavorited(!favorited);
+      } catch(error) {
+        console.error("Error handling adding favorites");
+      }
+    };
   
     return (
         <ScrollView style={{ flex: 1, margin: 20 }}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 20 }}>
                 <Text style={styles.foodNameFont}>{foodName}</Text>
+                <IconButton
+                    icon={favorited ? 'bookmark' : 'bookmark-outline'}
+                    iconColor="#3BADDE"
+                    size={50}
+                    onPress={addFavorite}
+                />
                 {ratingsComp}
                 {reviewList}
             </View>

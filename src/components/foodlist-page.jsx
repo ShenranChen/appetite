@@ -16,6 +16,7 @@ export default function FoodListPage(props)
     axios.get('http://localhost:8081/api/food')
     .then(res =>
     {
+        res.data = res.data.sort((a, b) => a.name.localeCompare(b.name))
         let fList = [];
         for (let data of res.data)
         {
