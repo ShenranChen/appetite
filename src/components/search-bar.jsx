@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { View, FlatList, Text, SafeAreaView } from 'react-native';
+import { View, FlatList, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import axios from "axios"
 
-const Search = () => {
+const Search = ({navigation}) => {
     const [foodData, setFoodData] = React.useState([]);
     const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -25,9 +25,11 @@ const Search = () => {
 
   const onChangeSearch = query => setSearchQuery(query);
   const renderFood = ({ item }) => (
-    <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
-      <Text>{item.name}</Text>
-    </View>
+    <TouchableOpacity onPress={() => navigation.navigate('Food', item._id )}>
+        <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
+            <Text>{item.name}</Text>
+        </View>
+    </TouchableOpacity>
   )
 
   return (
