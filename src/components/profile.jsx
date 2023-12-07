@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios"
+
 import { View,  Image, ScrollView } from "react-native";
 import { Text, ToggleButton, List } from "react-native-paper";
 import { useUser } from './global-user.jsx'
@@ -9,7 +10,7 @@ import Review from './review.jsx'
 
 
 const Profile = () => {
-  const {user} = useUser();
+  const { user } = useUser();
 
   const [currUser, setCurrUser] = useState([]);
   const [usersReviews, setUsersReviews] = useState([]);
@@ -19,6 +20,9 @@ const Profile = () => {
   const [value, setValue] = useState('reviews');
   const [favoritesComponents, setFavoritesComponents] = useState([]);
   const navigation = useNavigation();
+  const [profilePhotoString, setProfilePhotoString] = useState("");
+  const [useDefaultPhoto, setUseDefaultPhoto] = useState(true);
+
 
   useEffect(() => {
     axios.get(`http://localhost:8081/api/users/${user}`)
@@ -28,19 +32,21 @@ const Profile = () => {
       setFavorites(response.data.favoriteFoods) // should be array of favoriteFoods IDS [43024342, 34235324532, 325324234]
       console.log("favorite foods array: ", favorites)
       setUserFetched(true);
+      setProfilePhotoString(response.data.profilePhoto);
+      if (response.data.profilePhoto != '')
+        setUseDefaultPhoto(false);
     })
     .catch(error => console.error("AAAAAAAAAAAAAAA" + error));
-    
   }, [user]);
 
   useEffect(() => {
     if (userFetched && usersReviews) {
       for (let i = 0; i < usersReviews.length; i++) {
         axios.get(`http://localhost:8081/api/reviews/${usersReviews[i]}`)
-        .then(response => {
-          setReviews(prevData => [...prevData, response.data])
-        })
-        .catch(error => console.error("oopsies" + error));
+          .then(response => {
+            setReviews(prevData => [...prevData, response.data])
+          })
+          .catch(error => console.error("oopsies" + error));
       }
     }
   }, [userFetched, usersReviews])
@@ -81,7 +87,13 @@ const Profile = () => {
         <Text>Loading...</Text>
       ) : (
         <>
-        <Text variant="titleLarge">{currUser.firstName}'s Profile</Text>
+        <Text variant="titleLarge">{currUser.firstName}'s Profile </Text>
+          {useDefaultPhoto && <Image 
+            source={require("../../assets/default-profile-icon.jpg")}  
+            style={{width: 200, height: 200, borderRadius: 200/ 2}} />} 
+          {!useDefaultPhoto && <Image 
+            source={{uri : `data:image/jpeg;base64,${profilePhotoString}`}}  
+            style={{width: 200, height: 200, borderRadius: 200/ 2}} />} 
         <Image 
             source={require("../../assets/IMG_5264.jpg")}  
             style={{width: 200, height: 200, borderRadius: 200/ 2}} />
@@ -134,7 +146,6 @@ const Profile = () => {
           }
         </ScrollView>
       </View>
-    </View>
     </>
   );
 };
