@@ -18,7 +18,7 @@ const UploadReview = () => {
     const [reviewPicture, setReviewPicture] = React.useState(null);
     const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
 
-    //NEW STUFF
+    //get the global user 
     const { user } = useUser();
     const [currUser, setCurrUser] = useState([]);
 
@@ -30,14 +30,10 @@ const UploadReview = () => {
             .catch(error => console.error("AAAA- upload review " + error));
     }, [user]);
 
-    //console.log(currUser);
-
-    //NEW STUFF
-
+    // get all the food items 
     useEffect(() => {
         axios.get("http://localhost:8081/api/food")
-            .then(response => {const sortedFoods = response.data.sort((a, b) => a.name.localeCompare(b.name));
-                setFoodItems(sortedFoods)})
+            .then(response => setFoodItems(response.data))
             .catch(error => console.error("upload review page food fetch error " + error));
     }, []);
 
@@ -78,6 +74,12 @@ const UploadReview = () => {
                     base64: selectedImage.base64,
                 });
                 console.log("Selected Image: ", selectedImage.uri, "and base 64: ", selectedImage.base64);
+
+                Toast.show({
+                    type: 'success',
+                    text1: 'Photo successfully uploaded!',
+                    visibilityTime: 3000, // millisecond = show for 3 secs
+                });
                 return;
             }
 
@@ -135,7 +137,7 @@ const UploadReview = () => {
             Toast.show({
                 type: 'success',
                 text1: 'Review Submitted!',
-                visibilityTime: 2000, // millisecond = show for 2 secs
+                visibilityTime: 3000, // millisecond = show for 3 secs
             });
 
             // if isReviewSubmitted , toast
