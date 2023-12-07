@@ -9,23 +9,9 @@ import Review from '../components/review.jsx'
 
 export default function FoodPage(props) {
     let foodID = props.route.params;
-    const ratingsComponent = 
-    <View>
-        <Text style={styles.ratingFont}>Average Ratings:</Text>
-        <AirbnbRating
-            style={{ alignSelf: 'center' }}
-            count={5}
-            reviews={["Terrible", "Bad", "Meh", "Pretty Good", "Amazing"]}
-            reviewSize={22}
-            defaultRating={avgRating}
-            size={24}
-            isDisabled={true}
-        />
-    </View>;
     const [foodName, setFoodName] = useState('');
-    const [avgRating, setAvgRating] = useState(0);
     const [reviewList, setReviewList] = useState([]);
-    const [ratingsComp, setRatingsComp] = useState(ratingsComponent);
+    const [ratingsComp, setRatingsComp] = useState(<></>);
     const [favorited, setFavorited] = useState(false);
   
     useEffect(() => {
@@ -36,7 +22,6 @@ export default function FoodPage(props) {
   
           if (foodData) {
             setFoodName(foodData.name);
-            setAvgRating(foodData.avgRating);
   
             const reviewsData = await Promise.all(
               foodData.reviews.map((reviewID) =>
@@ -62,7 +47,21 @@ export default function FoodPage(props) {
                 setRatingsComp(<></>);
             }
             else
-                setRatingsComp(ratingsComponent);
+            {
+                setRatingsComp(
+                    <View>
+                        <Text style={styles.ratingFont}>Average Ratings:</Text>
+                        <AirbnbRating
+                            style={{ alignSelf: 'center' }}
+                            count={5}
+                            reviews={["Terrible", "Bad", "Meh", "Pretty Good", "Amazing"]}
+                            reviewSize={22}
+                            defaultRating={foodData.averageRating}
+                            size={24}
+                            isDisabled={true}
+                        />
+                    </View>);
+            }
             setReviewList(reviewList);
           }
         } catch (error) {
