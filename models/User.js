@@ -7,7 +7,7 @@ const UserSchema = new Schema({
     lastName: String,
     email: String,
     password: String,
-    profilePhoto: String, // store the GridFS fileID
+    profilePhoto: String, // store base64 string of the image
     reviews: [{ type: String }],
     favoriteFoods: [{ type: String }],
     badges: [{ type: String }],
