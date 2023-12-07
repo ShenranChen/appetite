@@ -146,6 +146,7 @@ const Profile = () => {
           }
         </ScrollView>
       </View>
+      </View>
     </>
   );
 };
