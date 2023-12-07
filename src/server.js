@@ -166,7 +166,7 @@ app.post("/api/reviews", async (req, res) => {
     try {
         console.log('hello review endpoint start')
         console.log(req.body);
-        const { selectedFoodItem, reviewText, rating, user } = req.body;
+        const { selectedFoodItem, reviewText, rating, user, photostring } = req.body;
 
         // find the food item by ID
         let foodItem = await Food.findById(selectedFoodItem);
@@ -178,7 +178,7 @@ app.post("/api/reviews", async (req, res) => {
         //create new review 
         console.log("Received Rating:", rating);
         const newReview = new Review({
-            photo: "",
+            photo: photostring,
             caption: reviewText,
             rating: rating,
             item: foodItem.name,

@@ -7,6 +7,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import axios from "axios"
 import Toast from 'react-native-toast-message';
 import { useUser } from './global-user.jsx'
+import * as ImagePicker from 'expo-image-picker';
 
 const UploadReview = () => {
     const [foodItems, setFoodItems] = useState([]);
@@ -14,6 +15,7 @@ const UploadReview = () => {
     const defaultLabel = 'Select An Item to Review: ';
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState('')
+    const [reviewPicture, setReviewPicture] = React.useState(null);
     const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
 
     //NEW STUFF
@@ -48,6 +50,41 @@ const UploadReview = () => {
         setRating(ratingValue);
     }
 
+    const pickImage = async () => {
+        try {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                // await requestPermissions();
+                console.log('Permission denied');
+                return; // Don't proceed if permissions are not granted
+            }
+            // else
+            console.log('Permission granted');
+            const options = {
+                mediaType: ImagePicker.MediaTypeOptions.Images,
+                base64: true, // request image as base64 format
+            };
+
+            const image = await ImagePicker.launchImageLibraryAsync(options);
+            if (image.canceled) {
+                console.log("image picker cancelled")
+                return;
+            }
+            else {
+                const selectedImage = image.assets[0];
+                setReviewPicture({
+                    uri: selectedImage.uri,
+                    base64: selectedImage.base64,
+                });
+                console.log("Selected Image: ", selectedImage.uri, "and base 64: ", selectedImage.base64);
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleSubmitReview = async () => {
         try {
             if (!selectedFoodItem) {
@@ -66,6 +103,15 @@ const UploadReview = () => {
                 return;
             }
 
+            let photoBase64String = "";
+            if (reviewPicture) {
+                // convert image to base64
+                photoBase64String = reviewPicture.base64;
+                console.log("photoBase64String", reviewPicture.base64);
+                console.log("uri:", reviewPicture.uri);
+            }
+            else { console.log("no review photo set!") }
+
             const response = await fetch("http://localhost:8081/api/reviews", {
                 method: 'POST',
                 headers: {
@@ -76,6 +122,8 @@ const UploadReview = () => {
                     reviewText: reviewText,
                     rating: rating,
                     user: currUser,
+                    photostring: photoBase64String,
+
                 }),
             });
 
@@ -134,7 +182,7 @@ const UploadReview = () => {
                 backgroundColor='#F7FAFB'
                 theme={{ colors: { primary: 'gray' } }}
             />
-            <Button icon="camera" mode="outlined" onPress={() => console.log('Pressed upload photo')} textColor='#3BADDE' theme={{ colors: { outline: '#3BADDE' } }} style={styles.button} contentStyle={{ width: 335 }}>
+            <Button icon="camera" mode="outlined" onPress={pickImage} textColor='#3BADDE' theme={{ colors: { outline: '#3BADDE' } }} style={styles.button} contentStyle={{ width: 335 }}>
                 Upload a photo
             </Button>
             <Button mode="contained" onPress={handleSubmitReview} buttonColor='#3BADDE' style={styles.button} contentStyle={{ width: 335 }}>
