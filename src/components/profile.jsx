@@ -123,7 +123,7 @@ const Profile = () => {
         <Text>No reviews yet!</Text>
       ) : (
         reviews.map((value, index) => (
-          <Review key={index} itemName={value.item} rating={value.rating} caption={value.caption} id={value._id}/>
+          <Review key={index} itemName={value.item} rating={value.rating} caption={value.caption} id={value._id} photoString={value.photo} photoExists={(value.photo != "")}/>
         ))
       )
     }
