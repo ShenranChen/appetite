@@ -42,7 +42,6 @@ const Profile = () => {
   useEffect(() => {
     if (userFetched && usersReviews) {
       for (let i = 0; i < usersReviews.length; i++) {
-        console.log("CONSOLE LOG THE USERS REVIEW!!!!", usersReviews[i]);
         axios.get(`http://localhost:8081/api/reviews/${usersReviews[i]}`)
           .then(response => {
             setReviews(prevData => [...prevData, response.data])
