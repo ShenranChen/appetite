@@ -38,7 +38,27 @@ app.post('/api/check-user', async (req, res) => {
     }
 });
 
+app.post("/api/users/:email/favoriteFoods", async (req, res) => {
+    try {
+        console.log("jasonc's api's request body", req.body)
+        const {usersFavFoods} = req.body;
+        console.log("usersFavFoods", usersFavFoods);
+        const userEmail = req.params.email;
+        console.log("the users email in api call: ", userEmail)
+        const user = await User.findOne({ email: userEmail });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        user.favoriteFoods = usersFavFoods;
+        await user.save();
 
+    } catch (error) {
+        console.error('Error posting data:', error);
+        res.status(500).send("Server Error");
+    }
+})
+
+//gets user obj from email
 app.get("/api/users/:email", async (req, res) => {
     try {
         const userEmail = req.params.email;
@@ -278,6 +298,7 @@ app.post("/api/reviews/:id/unlike", async (req, res) => {
     }
 });
 
+/*
 app.post("/api/users/:favoriteFoods/isFavoriteFood", async (req, res) => { // handleFavoriteFoods
     try {
         console.log("in server for seeing if food is already in users' favorites")
@@ -294,8 +315,10 @@ app.post("/api/users/:favoriteFoods/isFavoriteFood", async (req, res) => { // ha
                 alreadyFavorite = true;
             }
         });
+        res.json(alreadyFavorite);
 
     } catch (error) {
         console.error("Couldn't add food to favorites");
     }
 });
+*/
