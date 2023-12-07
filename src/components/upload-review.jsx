@@ -36,7 +36,8 @@ const UploadReview = () => {
 
     useEffect(() => {
         axios.get("http://localhost:8081/api/food")
-            .then(response => setFoodItems(response.data))
+            .then(response => {const sortedFoods = response.data.sort((a, b) => a.name.localeCompare(b.name));
+                setFoodItems(sortedFoods)})
             .catch(error => console.error("upload review page food fetch error " + error));
     }, []);
 
