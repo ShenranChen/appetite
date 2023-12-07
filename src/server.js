@@ -227,3 +227,28 @@ app.post("/api/reviews", async (req, res) => {
         res.status(500).json({ error: "Server Error" });
     }
 });
+
+// endpoint to handle updating likes for a review
+app.post("/api/reviews/:id", async (req, res) => {
+    try {
+
+        console.log("in the server for handling likes\n")
+
+        const id = req.params.id;
+        let review = await Review.findById(id);
+
+        console.log("server review:", review)
+        // Update the likes count
+        review.likes += 1;
+
+        console.log("new like amount:", review.likes)
+
+        // Save the updated review
+        await review.save();
+
+        res.json(review);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server Error" });
+    }
+});
