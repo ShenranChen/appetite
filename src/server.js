@@ -136,6 +136,13 @@ app.get("/api/food", async (req, res) => {
 app.get("/api/reviews/:id", async (req, res) => {
     try {
         const id = req.params.id;
+        console.log(id)
+        if (id == undefined)
+        {
+            console.log('yea')
+            res.json('');
+            return;
+        }
         let review = await Review.findById(id);
         console.log('got reviews w certain ID:', review)
         res.json(review);
