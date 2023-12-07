@@ -1,14 +1,37 @@
 import * as React from 'react';
+import { View, FlatList, Text, SafeAreaView } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import axios from "axios"
 
 const Search = () => {
+    const [foodData, setFoodData] = React.useState([]);
     const [searchQuery, setSearchQuery] = React.useState('');
 
+    React.useEffect(() => {
+        // Fetch data from your database or API
+        fetchFoodFromDatabase();
+      }, []);
+
+      const fetchFoodFromDatabase = async () => {
+            axios.get("http://localhost:8081/api/food")
+            .then(response => {
+                const sortedFoods = response.data.sort((a, b) => a.name.localeCompare(b.name));
+                setFoodData(sortedFoods)})
+            .catch(error => console.error("Couldn't fetch food \n" + error));
+
+            console.log(foodData);
+      };
+
+
   const onChangeSearch = query => setSearchQuery(query);
+  const renderFood = ({ item }) => (
+    <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
+      <Text>{item.name}</Text>
+    </View>
+  )
 
   return (
-    <View>
+    <SafeAreaView>
      <Searchbar
       placeholder="feeling..."
       placeholderTextColor='grey'
@@ -18,8 +41,13 @@ const Search = () => {
       onChangeText={onChangeSearch}
       value={searchQuery}
     />
-    
-    </View>
+    <FlatList 
+          data={foodData}
+          renderItem={renderFood} 
+          keyExtractor={(item) => item._id} 
+    /> 
+
+    </SafeAreaView>
     
   );
 
