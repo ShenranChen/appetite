@@ -277,3 +277,25 @@ app.post("/api/reviews/:id/unlike", async (req, res) => {
         res.status(500).json({ error: "Server Error" });
     }
 });
+
+app.post("/api/users/:favoriteFoods/isFavoriteFood", async (req, res) => { // handleFavoriteFoods
+    try {
+        console.log("in server for seeing if food is already in users' favorites")
+        
+        const {userID, currentFoodItem} = req.body; // selectedFoodItem is food id
+        const user = await User.findById({userID}); // find current user
+
+        let alreadyFavorite = false;
+        await user.find({favoriteFoods: {$in: currentFoodItem}}, (err, result) => {
+            if (err) {
+                console.log("not a favorite")
+            } else {
+                console.log("already a favorite")
+                alreadyFavorite = true;
+            }
+        });
+
+    } catch (error) {
+        console.error("Couldn't add food to favorites");
+    }
+});
