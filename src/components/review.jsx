@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { View, Image } from "react-native"
 import {Text, Card} from 'react-native-paper'
 
-const Review = ({ itemName, rating, caption }) => {
+const Review = ({ itemName, rating, caption, photoExists, photoString }) => {
 
 
     return (
@@ -26,9 +26,9 @@ const Review = ({ itemName, rating, caption }) => {
                 </View>
                 <View style={{flex: 0, alignItems: "start", justifyContent: "end", margin:10, gap:10}}>
                     <Text variant="bodyMedium">{caption}</Text>
-                    <Image 
-                        source={require('../../assets/bplate-icon.png')}
-                        style={{width:150, height:75, borderRadius: 10}} />
+                    {photoExists && <Image 
+                        source={{uri : `data:image/jpeg;base64,${photoString}`}}
+                        style={{width:150, height:75, borderRadius: 10}} />}
                 </View>
                 
             </Card.Content>
