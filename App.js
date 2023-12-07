@@ -45,7 +45,7 @@ export default function App() {
             <Stack.Screen name="Upload Review" component={UploadReview} />
             <Stack.Screen name="Welcome" component={WelcomePage} />
             <Stack.Screen name="Profile" component={Profile}/>
-            <Stack.Screen name="Sign up for a new account" component={SignupPage}/>
+            <Stack.Screen name="Sign Up" component={SignupPage}/>
             <Stack.Screen name="Home" component={HomePage} />
             <Stack.Screen name="FoodList" component={FoodListPage}/>
             <Stack.Screen name="Food" component={FoodPage}/>

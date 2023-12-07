@@ -102,7 +102,9 @@ const styles = StyleSheet.create(
         },
         dhallButtonFont: {
             fontSize: 40,
-            color: 'white'
+            color: 'white',
+            fontFamily: 'Noteworthy-Bold',
+            // fontWeight: 'bold'
         },
         dhallButtonImage: {
             width: 300,
