@@ -1,5 +1,8 @@
 # APPetite
-<img src="./images/App-logo.png" alt="APPetite Logo" width="300" height="200">
+<div style="text-align: center;">
+  <img src="./images/App-logo.png" alt="APPetite Logo" width="200" height="200">
+</div>
+
 **_APPetite_** is mobile application designed to enhance the dining experience for UCLA students. The platform serves as a yelp for the three dining halls, allowing students to rate the individual dishes and see previous reviews for dishes the dining halls is serving that day. It will also be a catalog for dishes that have been served in the past, helping students plan ahead (especially useful for those that stalk UCLA dining). 
 
 ## Table of Contents
