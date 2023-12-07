@@ -72,7 +72,7 @@ export default function BadgePage()
     return (
         <ScrollView>
             <Text style={styles.captionFont}>
-                Badges 🤩
+                Badges
             </Text>
             <View style={{ margin: 20, alignItems: 'center' }}>
                 {badgesElement}
@@ -86,14 +86,15 @@ const styles = StyleSheet.create(
 {
     captionFont: {
         fontSize: 45,
-        color: 'black',
+        color: 'white',
         textAlign: 'center',
-        fontFamily: 'Times New Roman',
+        fontFamily: 'Noteworthy-Bold',
         backgroundColor: '#3CADDE',
         padding: 20
     },
     badgeDescriptionFont: {
         fontSize: 20,
-        color: 'black'
+        color: 'black',
+        fontFamily: 'Noteworthy-Bold',
     }
 });
