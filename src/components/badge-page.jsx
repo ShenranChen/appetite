@@ -45,7 +45,7 @@ export default function BadgePage()
         const fetchData = async () => {
             let badges = [];
 
-            const userRes = await axios.get(`http://localhost:8081/api/users/liug26@ucla.edu`);
+            const userRes = await axios.get(`http://localhost:8081/api/users/${user}`);
             if (userRes.data.reviews.length >= 1)
                 badges.push(getBadge(BADGES[1]));
             if (userRes.data.reviews.length >= 3)
