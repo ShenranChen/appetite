@@ -46,7 +46,7 @@ export default function App() {
             <Stack.Screen name="Welcome" component={WelcomePage} />
             <Stack.Screen name="Profile" component={Profile}/>
             <Stack.Screen name="Sign Up" component={SignupPage}/>
-            <Stack.Screen name="Home" component={HomePage} />
+            <Stack.Screen name="Home" component={HomePage} options={{headerBackVisible:false}}/>
             <Stack.Screen name="FoodList" component={FoodListPage}/>
             <Stack.Screen name="Food" component={FoodPage}/>
             <Stack.Screen name="Badge" component={BadgePage}/>
