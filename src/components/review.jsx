@@ -91,7 +91,7 @@ const Review = ({ itemName, rating, caption, id, photoExists, photoString }) => 
                         <Text variant="bodyMedium">{caption}</Text>
                         {photoExists && <Image 
                             source={{uri : `data:image/jpeg;base64,${photoString}`}}
-                            style={{width:150, height:75, borderRadius: 10}} />}
+                            style={{width:100, height:100, borderRadius: 10, objectFit:'fill'}} />}
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
                         <IconButton
