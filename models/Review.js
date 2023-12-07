@@ -5,7 +5,8 @@ const ReviewSchema = new Schema({
     photo: String,
     caption: String,
     rating: Number,
-    item: String
+    item: String,
+    likes: Number
 })
 
 const Review = model('Review', ReviewSchema, 'reviews')
