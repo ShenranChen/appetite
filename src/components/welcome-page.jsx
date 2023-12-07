@@ -3,7 +3,6 @@ import { View, TouchableWithoutFeedback, Keyboard, StyleSheet, Alert } from 'rea
 import { Button, HelperText, TextInput } from 'react-native-paper'
 import axios from "axios"
 import { useUser } from './global-user.jsx'
-import Review from './review.jsx'
 
 
 // const DismissKeyboard = ({ children }) => (
@@ -17,6 +16,15 @@ const WelcomePage = ({navigation}) => {
   const [pass, setPass] = React.useState('');
   const [showPass, setShowPass] = React.useState(false);
   const { user, updateUser } = useUser();
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setEmail('');
+      setPass('');
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const hasErrors = () => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -84,7 +92,7 @@ const WelcomePage = ({navigation}) => {
           <Button style={styles.button} mode='contained' disabled={email.length == 0 || pass.length== 0} onPress={handleSignIn}>Sign In</Button>
           <View style={styles.redirection}>
             <Button style={{marginLeft: 40}} textColor='#3CADDE' onPress={() => {navigation.navigate('Sign Up')}}>Sign Up</Button>
-            <Button style={{marginLeft: 90}} textColor='#3CADDE'onPress={() => {}}> Forgot Password?</Button>
+            <Button style={{marginLeft: 130}} textColor='#3CADDE'onPress={() => {}}> Forgot Password?</Button>
           </View>
       </View>
     </View>
@@ -105,7 +113,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
   },
   login: {
-    flex: 2,
+    flex: 2.5,
     // backgroundColor: 'green'
   },
   button: {
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
   password: {
     backgroundColor: 'transparent',
     marginHorizontal: 10,
-    marginBottom: 20
+    // marginBottom: 20
   },
   redirection: {
     flexDirection:'row'

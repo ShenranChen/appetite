@@ -105,6 +105,7 @@ const Profile = () => {
           <ToggleButton icon="note-text-outline" value="reviews" />
           <ToggleButton icon="star" value="favorites" />
           <ToggleButton icon="trophy-outline" onPress={() => {navigation.navigate('Badge')}} />
+          <ToggleButton icon="logout" onPress={() => {navigation.navigate('Welcome')}} />
         </ToggleButton.Row> 
         <View>
         {
