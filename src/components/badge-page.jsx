@@ -20,6 +20,11 @@ const BADGES =
         'key': '3-plus-reviews',
         'image': require('../../assets/3-plus-reviews.png'),
         'description': 'You\'ve posted more than 3 reviews!'
+    },
+    {
+        'key': 'valid-food-critic',
+        'image': require('../../assets/badge.png'),
+        'description': 'Valid food critic!'
     }
 ];
 
@@ -50,6 +55,8 @@ export default function BadgePage()
                 badges.push(getBadge(BADGES[1]));
             if (userRes.data.reviews.length >= 3)
                 badges.push(getBadge(BADGES[2]));
+            if (userRes.data.reviews.length >= 15)
+                badges.push(getBadge(BADGES[3]));
 
             const reviewsData = await Promise.all(
                 userRes.data.reviews.map((reviewID) =>
