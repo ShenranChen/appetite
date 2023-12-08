@@ -33,6 +33,7 @@
 3. Install XCode Simulator from App Store
 4. In the repository, run `npm install` to install necessary libraries
 5. Run `npm start` to start up both the server and the frontend. Press i to open the iOS simulator, and choose to run the app on iPhone 14 Pro Max for the best experience.
+6. Ensure you are connected to eduroam wifi so you can connect to our database.
 
 ## How to shutdown
 1. Terminate the frontend by Ctrl+C
