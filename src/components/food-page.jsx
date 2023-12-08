@@ -29,6 +29,7 @@ export default function FoodPage(props) {
     const [ratingsComp, setRatingsComp] = useState(ratingsComponent);
     const [favorited, setFavorited] = useState(false);
     const [favorites, setFavorites] = useState([])
+    const [favoriteComp, setFavoriteComp] = useState(<></>)
     const {user} = useUser();
 
     useEffect(() => {
@@ -60,12 +61,14 @@ export default function FoodPage(props) {
             ));
 
             //use get API to get ALL currUser's favorite foods
-            axios.get(`http://localhost:8081/api/users/${user}`)
+            let favData = await axios.get(`http://localhost:8081/api/users/${user}`);
+            setFavorites(favData.data.favoriteFoods);
+            /*
             .then(response => {
               setFavorites(response.data.favoriteFoods); //list of favorite food IDs
             })
-
-            if (favorites.includes(foodID)) {
+            */
+            if (favData.data.favoriteFoods.includes(foodID)) {
               setFavorited(true);
             }
             else {
@@ -87,27 +90,31 @@ export default function FoodPage(props) {
       };
   
       fetchData();
-    }, [foodID]);
+    }, [foodID, user, favorited]); 
 
     
     
 
     const handleFavorite = async () => {
-      setFavorited(!favorited);
-      if (favorited) {
-        let prevFavorites = favorites;
+      let fav;
+      if (!favorited) { //previous
+        //let prevFavorites = favorites;
         // If user favorites the item, add to array
-        setFavorites((prevFavorites) => [...prevFavorites, foodID]);
+        console.log("Previous favorites (favorites)", favorites)
+        setFavorites(prevFavorites => [...prevFavorites, foodID]);
+        fav = [...favorites, foodID];
       } else {
         // If user unfavorites the item, remove from array
-        setFavorites((prevFavorites) => prevFavorites.filter((id) => id !== foodID));
+        setFavorites(prevFavorites => prevFavorites.filter((id) => id !== foodID));
+        fav = favorites.filter((id) => id !== foodID);
       }
+      setFavorited(!favorited);
       console.log("in handle favorite");
       const favoriteData = {
-        favArr: favorites
+        favArr: fav
       }
       try {
-
+        console.log("favorites state arr:", favorites);
         const response = axios.post(`http://localhost:8081/api/users/${user}/favoriteFoods`, favoriteData, {
           headers: {
                   'Content-Type': 'application/json',
@@ -118,6 +125,7 @@ export default function FoodPage(props) {
         console.error("Error editing fav array: ", error)
       }
     };
+
   
     return (
         <ScrollView style={{ flex: 1, margin: 20 }}>

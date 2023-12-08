@@ -41,7 +41,7 @@ app.post('/api/check-user', async (req, res) => {
 app.post("/api/users/:email/favoriteFoods", async (req, res) => {
     try {
         console.log("jasonc's api's request body", req.body)
-        const {usersFavFoods} = req.body;
+        const usersFavFoods = req.body.favArr;
         console.log("usersFavFoods", usersFavFoods);
         const userEmail = req.params.email;
         console.log("the users email in api call: ", userEmail)
