@@ -53,7 +53,7 @@ export default function HomePage()
         else
             time = 'breakfast'
         // Epicuria only available Sun-Thu dinner time
-        if (diningHall == 'epic' && !([0, 1, 2, 3, 4].includes(currentDay) && time == 'dinner'))
+        if (diningHall == 'epicuria' && !([0, 1, 2, 3, 4].includes(currentDay) && time == 'dinner'))
         {
             Alert.alert('Dining Hall Closed', 'Sorry, Epicuria is closed.\nHours is Mon-Thu at dinner time.');
             return;
@@ -73,7 +73,7 @@ export default function HomePage()
             <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 100 }}>
                 <DHallSelectionButton caption="BPlate" image={require('../../assets/bplate-icon.png')} onPress={() => checkEpicAndNavigate('bplate')} />
                 <DHallSelectionButton caption="De Neve" image={require('../../assets/deneve-icon.png')} onPress={() => checkEpicAndNavigate('deneve')} />
-                <DHallSelectionButton caption="Epicuria" image={require('../../assets/epicuria-icon.png')} onPress={() => checkEpicAndNavigate('epic')} />
+                <DHallSelectionButton caption="Epicuria" image={require('../../assets/epicuria-icon.png')} onPress={() => checkEpicAndNavigate('epicuria')} />
             </View>
             <BottomBar />
         </View>
