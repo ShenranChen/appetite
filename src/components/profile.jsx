@@ -104,7 +104,7 @@ const Profile = () => {
       <View style={{flex: 2, alignItems: "center",  justifyContent: "space-evenly", margin: 20, gap: 10}}>
         <ToggleButton.Row onValueChange={value => setValue(value)} value={value}>
           <ToggleButton icon="note-text-outline" value="reviews" />
-          <ToggleButton icon="star" value="favorites" />
+          <ToggleButton icon="bookmark" value="favorites" />
           <ToggleButton icon="trophy-outline" onPress={() => {navigation.navigate('Badge')}} />
           <ToggleButton icon="logout" onPress={() => {navigation.navigate('Welcome');
           Toast.show({
