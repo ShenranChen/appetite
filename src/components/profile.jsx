@@ -6,6 +6,7 @@ import { View,  Image, ScrollView } from "react-native";
 import { Text, ToggleButton, List } from "react-native-paper";
 import { useUser } from './global-user.jsx'
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import Review from './review.jsx'
 
 
@@ -105,7 +106,13 @@ const Profile = () => {
           <ToggleButton icon="note-text-outline" value="reviews" />
           <ToggleButton icon="star" value="favorites" />
           <ToggleButton icon="trophy-outline" onPress={() => {navigation.navigate('Badge')}} />
-          <ToggleButton icon="logout" onPress={() => {navigation.navigate('Welcome')}} />
+          <ToggleButton icon="logout" onPress={() => {navigation.navigate('Welcome');
+          Toast.show({
+            type: 'success',
+            text1: 'Logged Out!',
+            visibilityTime: 3000, // millisecond = show for 3 secs
+        });
+        }} />
         </ToggleButton.Row> 
         <View>
         {
