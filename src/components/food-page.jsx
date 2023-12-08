@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { IconButton } from 'react-native-paper';
 import Review from '../components/review.jsx'
+import { useUser } from './global-user.jsx'
 
 
 export default function FoodPage(props) {
@@ -13,7 +14,10 @@ export default function FoodPage(props) {
     const [reviewList, setReviewList] = useState([]);
     const [ratingsComp, setRatingsComp] = useState(<></>);
     const [favorited, setFavorited] = useState(false);
-  
+    const [favorites, setFavorites] = useState([])
+    const [favoriteComp, setFavoriteComp] = useState(<></>)
+    const {user} = useUser();
+
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -40,6 +44,21 @@ export default function FoodPage(props) {
                 photoString={res.data.photo}
               />
             ));
+
+            //use get API to get ALL currUser's favorite foods
+            let favData = await axios.get(`http://localhost:8081/api/users/${user}`);
+            setFavorites(favData.data.favoriteFoods);
+            /*
+            .then(response => {
+              setFavorites(response.data.favoriteFoods); //list of favorite food IDs
+            })
+            */
+            if (favData.data.favoriteFoods.includes(foodID)) {
+              setFavorited(true);
+            }
+            else {
+              setFavorited(false);
+            }
 
             if (reviewList.length == 0)
             {
@@ -70,24 +89,42 @@ export default function FoodPage(props) {
       };
   
       fetchData();
-    }, [foodID]);
+    }, [foodID, user, favorited]); 
 
-    const addFavorite = async () => {
+    
+    
+
+    const handleFavorite = async () => {
+      let fav;
+      if (!favorited) { //previous
+        //let prevFavorites = favorites;
+        // If user favorites the item, add to array
+        console.log("Previous favorites (favorites)", favorites)
+        setFavorites(prevFavorites => [...prevFavorites, foodID]);
+        fav = [...favorites, foodID];
+      } else {
+        // If user unfavorites the item, remove from array
+        setFavorites(prevFavorites => prevFavorites.filter((id) => id !== foodID));
+        fav = favorites.filter((id) => id !== foodID);
+      }
+      setFavorited(!favorited);
+      console.log("in handle favorite");
+      const favoriteData = {
+        favArr: fav
+      }
       try {
-        console.log("Does nothing for now");
-        // if it's favorited right now and user unfavorited do this:
-        if (favorited) { // currently already favorited so do unfavorited stuff
-          
-        }
-        // else add favorite
-        else {
-
-        }
-        setFavorited(!favorited);
-      } catch(error) {
-        console.error("Error handling adding favorites");
+        console.log("favorites state arr:", favorites);
+        const response = axios.post(`http://localhost:8081/api/users/${user}/favoriteFoods`, favoriteData, {
+          headers: {
+                  'Content-Type': 'application/json',
+                    }
+        });
+      }
+      catch (error) {
+        console.error("Error editing fav array: ", error)
       }
     };
+
   
     return (
         <ScrollView style={{ flex: 1, margin: 20 }}>
@@ -97,7 +134,7 @@ export default function FoodPage(props) {
                     icon={favorited ? 'bookmark' : 'bookmark-outline'}
                     iconColor="#3BADDE"
                     size={50}
-                    onPress={addFavorite}
+                    onPress={handleFavorite}
                 />
                 {ratingsComp}
                 {reviewList}
