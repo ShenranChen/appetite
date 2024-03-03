@@ -91,9 +91,9 @@ app.get("/api/users", async (req, res) => {
     }
 });
 
-app.post("/api/food/:name", async (req, res) => {
+app.get("/api/food/:name", async (req, res) => {
     try {
-        const foodName = req.params.name;
+        const foodName = req.params.name.replace('%2F', '/');;
         let foodItem = await Food.findOne({ name: foodName });
     
         if (foodItem) {

@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-na
 import { Appbar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import cheerio from 'cheerio';
 import axios from 'axios';
 
 
@@ -35,6 +36,19 @@ function BottomBar() {
     );
 };
 
+// Web scraping functions
+async function fetchHTML(url) {
+    try {
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching the HTML:', error);
+        return null;
+    }
+}
+
+const url = 'https://menu.dining.ucla.edu/Menus/Today';
+
 
 const LETTER_DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 export default function HomePage()
@@ -46,6 +60,7 @@ export default function HomePage()
         let currentHour = date.getHours();
         let currentDay = date.getDay();
         let time = '';
+        let epicClosed = false;
         if (currentHour > 16)
             time = 'dinner';
         else if (currentHour > 10)
@@ -55,9 +70,78 @@ export default function HomePage()
         // Epicuria only available Sun-Thu dinner time
         if (diningHall == 'epicuria' && !([0, 1, 2, 3, 4].includes(currentDay) && time == 'dinner'))
         {
+            epicClosed = true;
             Alert.alert('Dining Hall Closed', 'Sorry, Epicuria is closed.\nHours is Mon-Thu at dinner time.');
             return;
         }
+
+        // Web scrape
+        axios.get(url)
+        .then(res =>
+        {
+            let html = res.data;
+            const $ = cheerio.load(html);
+            let element = null;
+
+            if (time == 'breakfast' && diningHall == 'deneve')
+            {
+                element = $('h2#page-header+div+div')['0'];
+            }
+            else if (time == 'lunch' && diningHall == 'deneve')
+            {
+                element = $('h2#page-header+div+div')['1'];
+            }
+            else if (time == 'dinner' && diningHall == 'deneve')
+            {
+                if (epicClosed)
+                {
+                    element = $('h2#page-header+div+div')['2'];
+                }
+                else
+                {
+                    element = $('h2#page-header+div+div+div')['2'];
+                }
+            }
+            else if (time == 'breakfast' && diningHall == 'bplate')
+            {
+                element = $('h2#page-header+div+div+div')['0'];
+            }
+            else if (time == 'lunch' && diningHall == 'bplate')
+            {
+                element = $('h2#page-header+div+div+div')['1'];
+            }
+            else if (time == 'dinner' && diningHall == 'bplate')
+            {
+                if (epicClosed)
+                {
+                    element = $('h2#page-header+div+div+div')['2'];
+                }
+                else
+                {
+                    element = $('h2#page-header+div+div+div+div')['2'];
+                }
+            }
+            else if (time == 'dinner' && diningHall == 'epicuria')
+            {
+                element = $('h2#page-header+div+div')['2'];
+            }
+            
+            let listOfFood = [];
+            $(element).find('>ul>li>ul>li>span>a').each((index, subElement) => {
+                let foodName = $(subElement).text();
+                foodName = foodName.replace('/', '%2F');
+                axios.get(`http://localhost:8081/api/food/${foodName}`)
+                .then(res =>
+                {
+                    listOfFood.push(res.data['id']);
+                })
+                .catch(error => console.error(error));
+            });
+            navigation.navigate('FoodList', listOfFood);
+        })
+        .catch(error => console.error(error));
+
+        /* Old code
         // If dining hall is open, fetch from backend and populate the food list page
         axios.get('http://localhost:8081/api/catalog')
         .then(res =>
@@ -66,6 +150,7 @@ export default function HomePage()
             navigation.navigate('FoodList', listOfFood);
         })
         .catch(error => console.error(error));
+        */
     }
 
     return (
