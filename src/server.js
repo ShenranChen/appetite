@@ -91,6 +91,39 @@ app.get("/api/users", async (req, res) => {
     }
 });
 
+app.post("/api/food/:name", async (req, res) => {
+    try {
+        const foodName = req.params.name;
+        let foodItem = await Food.findOne({ name: foodName });
+    
+        if (foodItem) {
+          res.json({ id: foodItem._id });
+        } else {
+          const newFoodItem = await addFoodItem(foodName);
+          res.json({ id: newFoodItem._id });
+        }
+      } catch (error) {
+        console.error('Error checking food item:', error);
+        res.status(500).send('Server error');
+      }
+});
+
+async function addFoodItem(foodName) {
+    try {
+      const newFood = new Food({
+        name: foodName,
+        reviews: [],
+        averageRating: 0
+      });
+  
+      const savedFood = await newFood.save();
+      return savedFood;
+    } catch (error) {
+      console.error('Error adding food item:', error);
+      throw new Error('Error adding food item');
+    }
+  }
+
 app.post("/api/sign-up", async (req, res) => {
     try {
         console.log("sign-up");
