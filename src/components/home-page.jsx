@@ -118,7 +118,7 @@ export default function HomePage()
                 }
                 else
                 {
-                    element = $('h2#page-header+div+div+div+div')['2'];
+                    element = $('h2#page-header+div+div+div+div')['0'];
                 }
             }
             else if (time == 'dinner' && diningHall == 'epicuria')
@@ -129,6 +129,7 @@ export default function HomePage()
             let listOfFood = [];
             $(element).find('>ul>li>ul>li>span>a').each((index, subElement) => {
                 let foodName = $(subElement).text();
+                console.log(foodName);
                 foodName = foodName.replace('/', '%2F');
                 axios.get(`http://localhost:8081/api/food/${foodName}`)
                 .then(res =>
